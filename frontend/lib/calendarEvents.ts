@@ -1,5 +1,6 @@
 import type { EventInput } from "@fullcalendar/core";
 import type { ActivityWindow, Segment } from "./types";
+import { utcIsoToCalendarLocal } from "./timezone";
 
 export function segmentIsAllDay(seg: Segment): boolean {
   if (seg.metadata?.is_all_day === true) return true;
@@ -42,17 +43,26 @@ export function segmentTitle(seg: Segment): string {
   return title || summary || seg.activity_label;
 }
 
-export function segmentsToCalendarEvents(segments: Segment[]): EventInput[] {
+export function segmentsToCalendarEvents(
+  segments: Segment[],
+  timeZone?: string
+): EventInput[] {
   return segments.map((seg) => {
     const allDay = segmentIsAllDay(seg);
     const title = segmentTitle(seg);
     const range = allDay ? allDayRange(seg) : null;
+    const start =
+      range?.start ??
+      (timeZone ? utcIsoToCalendarLocal(seg.started_at, timeZone) : seg.started_at);
+    const end =
+      range?.end ??
+      (timeZone ? utcIsoToCalendarLocal(seg.ended_at, timeZone) : seg.ended_at);
 
     return {
       id: String(seg.id),
       title,
-      start: range?.start ?? seg.started_at,
-      end: range?.end ?? seg.ended_at,
+      start,
+      end,
       allDay,
       backgroundColor: seg.color,
       borderColor: seg.source === "google_calendar" ? "#0ea5e9" : seg.color,
@@ -110,18 +120,27 @@ export function windowTitle(win: ActivityWindow): string {
   return base;
 }
 
-export function windowsToCalendarEvents(windows: ActivityWindow[]): EventInput[] {
+export function windowsToCalendarEvents(
+  windows: ActivityWindow[],
+  timeZone?: string
+): EventInput[] {
   return windows.map((win) => {
     const allDay = windowIsAllDay(win);
     const range = allDay ? allDayRangeFromWindow(win) : null;
     const hasGoogle = win.sources.includes("google_calendar");
     const isManualOnly = win.sources.length === 1 && win.sources[0] === "manual";
+    const start =
+      range?.start ??
+      (timeZone ? utcIsoToCalendarLocal(win.started_at, timeZone) : win.started_at);
+    const end =
+      range?.end ??
+      (timeZone ? utcIsoToCalendarLocal(win.ended_at, timeZone) : win.ended_at);
 
     return {
       id: String(win.id),
       title: windowTitle(win),
-      start: range?.start ?? win.started_at,
-      end: range?.end ?? win.ended_at,
+      start,
+      end,
       allDay,
       backgroundColor: win.color,
       borderColor: hasGoogle ? "#0ea5e9" : win.color,

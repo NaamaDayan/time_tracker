@@ -51,7 +51,10 @@ async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
       const json = JSON.parse(text) as { detail?: string };
       if (json.detail) throw new Error(json.detail);
     } catch (e) {
-      if (e instanceof Error && e.message !== text) throw e;
+      if (e instanceof SyntaxError) {
+        throw new Error(text || `API error ${res.status}`);
+      }
+      throw e;
     }
     throw new Error(text || `API error ${res.status}`);
   }

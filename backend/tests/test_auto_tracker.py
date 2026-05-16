@@ -69,7 +69,7 @@ def test_fetch_auto_tracker_entries(desktop_db: Path):
     assert len(entries) == 1
     assert entries[0]["id"] == "auto-1"
     assert entries[0]["description"] == "Google Chrome — GitHub"
-    assert entries[0]["timeInterval"]["start"] == "2026-05-16T10:00:00Z"
+    assert entries[0]["timeInterval"]["start"] == "2026-05-16T13:00:00+03:00"
     assert entries[0]["_autoTracker"]["app"] == "Google Chrome"
 
 

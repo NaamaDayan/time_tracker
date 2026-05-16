@@ -7,6 +7,7 @@ import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from app.config import get_settings
 
@@ -75,8 +76,14 @@ def _core_data_to_datetime(value: float | int | None) -> datetime | None:
     return CORE_DATA_EPOCH + timedelta(seconds=float(value))
 
 
+def _user_timezone() -> ZoneInfo:
+    return ZoneInfo(get_settings().user_timezone)
+
+
 def _format_clockify_time(dt: datetime) -> str:
-    return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    """Emit ISO times in the user's timezone (e.g. Asia/Jerusalem, +03:00)."""
+    local = dt.astimezone(_user_timezone())
+    return local.isoformat(timespec="seconds")
 
 
 def _row_to_entry(row: sqlite3.Row) -> dict[str, Any]:
@@ -121,6 +128,8 @@ def fetch_auto_tracker_entries(
 ) -> tuple[list[dict[str, Any]], Path]:
     """Load auto-tracker rows from the desktop SQLite DB within [start, end]."""
     path = resolve_desktop_db_path(user_id=user_id, explicit_path=db_path)
+    # Filter range using the user's local calendar boundaries, then compare in UTC.
+    user_tz = _user_timezone()
     start_utc = start.astimezone(timezone.utc)
     end_utc = end.astimezone(timezone.utc)
     start_seconds = (start_utc - CORE_DATA_EPOCH).total_seconds()

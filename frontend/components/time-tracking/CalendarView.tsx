@@ -114,7 +114,10 @@ export function CalendarView({
     }
   }, [range, load, refreshKey]);
 
-  const events = useMemo(() => windowsToCalendarEvents(windows), [windows]);
+  const events = useMemo(
+    () => windowsToCalendarEvents(windows, timezone),
+    [windows, timezone]
+  );
 
   const windowById = useMemo(() => {
     const map = new Map<string, ActivityWindow>();
