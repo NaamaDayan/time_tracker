@@ -1,0 +1,14 @@
+.wrap {
+  --fc-border-color: var(--border, #2d3a4f);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: var(--surface, #1a2332);
+  --fc-today-bg-color: rgba(59, 130, 246, 0.08);
+  --fc-event-text-color: #fff;
+  font-size: 0.875rem;
+}
+
+.hint {
+  margin: 0 0 10px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}

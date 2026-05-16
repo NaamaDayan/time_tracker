@@ -1,0 +1,24 @@
+default_activity: communication
+
+title_keywords:
+  work:
+    - meeting
+    - standup
+    - sync
+    - interview
+    - review
+    - sprint
+    - planning
+  fun:
+    - party
+    - birthday
+    - dinner
+    - drinks
+    - vacation
+    - holiday
+  communication:
+    - call
+    - coffee
+    - lunch
+    - "1:1"
+    - catch up

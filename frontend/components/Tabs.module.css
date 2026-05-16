@@ -1,0 +1,44 @@
+.main {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.sub {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.tab,
+.active {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.sub .tab,
+.sub .active {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-bottom: none;
+  border-radius: 6px;
+}
+
+.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.sub .active {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+}

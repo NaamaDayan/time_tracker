@@ -1,0 +1,13 @@
+# When multiple activity segments overlap, the type higher in this list wins for
+# aggregated duration (pie chart). Edit and add tests when changing.
+priority:
+  - read
+  - communication
+  - work
+  - sport
+  - transport
+  - consuming
+  - fun
+  - eat
+  - screen_time
+  - sleep

@@ -1,0 +1,46 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.toolbar button:hover {
+  border-color: var(--accent);
+}
+
+.weekLabel {
+  font-weight: 600;
+  min-width: 100px;
+  text-align: center;
+}
+
+.today {
+  margin-left: auto;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 14px;
+}

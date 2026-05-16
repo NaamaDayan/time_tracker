@@ -1,0 +1,22 @@
+.btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8125rem;
+  border: 1px solid var(--border, #d1d5db);
+  border-radius: 6px;
+  background: var(--surface, #fff);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--surface-hover, #f3f4f6);
+}
+
+.connected {
+  font-size: 0.8125rem;
+  color: var(--muted, #6b7280);
+}
+
+.muted {
+  font-size: 0.8125rem;
+  color: var(--muted, #9ca3af);
+}

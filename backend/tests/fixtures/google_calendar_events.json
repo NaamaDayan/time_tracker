@@ -1,0 +1,18 @@
+[
+  {
+    "id": "gcal_evt_1",
+    "status": "confirmed",
+    "summary": "Team standup",
+    "start": { "dateTime": "2026-05-12T09:00:00Z" },
+    "end": { "dateTime": "2026-05-12T09:30:00Z" },
+    "htmlLink": "https://calendar.google.com/event?eid=1"
+  },
+  {
+    "id": "gcal_evt_2",
+    "status": "confirmed",
+    "summary": "Birthday party",
+    "start": { "date": "2026-05-14" },
+    "end": { "date": "2026-05-15" },
+    "htmlLink": "https://calendar.google.com/event?eid=2"
+  }
+]

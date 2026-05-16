@@ -1,0 +1,158 @@
+/* FullCalendar v6 layout (no bundled theme) */
+.fc {
+  font-size: 0.875rem;
+  direction: ltr;
+  text-align: left;
+}
+
+.fc .fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.fc .fc-button {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8125rem;
+  border: 1px solid var(--border, #2d3a4f);
+  border-radius: 6px;
+  background: var(--surface, #1a2332);
+  color: var(--text, #e7ecf3);
+  cursor: pointer;
+}
+
+.fc .fc-button:hover {
+  border-color: var(--accent, #3b82f6);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--accent, #3b82f6);
+  border-color: var(--accent, #3b82f6);
+}
+
+.fc .fc-scrollgrid {
+  border: 1px solid var(--border, #2d3a4f);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fc .fc-col-header-cell {
+  padding: 0.5rem;
+  background: var(--surface, #1a2332);
+  border-bottom: 1px solid var(--border, #2d3a4f);
+  font-weight: 600;
+}
+
+.fc .fc-timegrid-slot {
+  height: 2.25rem;
+  border-bottom: 1px solid var(--border, #2d3a4f);
+}
+
+.fc .fc-timegrid-slot-label {
+  vertical-align: top;
+  padding: 0.25rem 0.5rem;
+  color: var(--muted, #8b9cb3);
+  font-size: 0.75rem;
+}
+
+.fc .fc-timegrid-col {
+  border-left: 1px solid var(--border, #2d3a4f);
+}
+
+.fc .fc-timegrid-col-events {
+  margin: 0 2px;
+}
+
+.fc .fc-event {
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.fc .fc-event:hover {
+  filter: brightness(1.08);
+}
+
+.fc .fc-event-title {
+  font-weight: 500;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.fc .fc-event-time {
+  font-size: 0.6875rem;
+  opacity: 0.9;
+}
+
+.fc .fc-timegrid-event {
+  margin-bottom: 1px;
+}
+
+.fc .fc-timegrid-event-harness-inset .fc-timegrid-event {
+  box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+}
+
+.fc .fc-daygrid-event {
+  margin-top: 2px;
+  padding: 3px 6px;
+}
+
+.fc .fc-timegrid-now-indicator-line {
+  border-color: #ef4444;
+  border-width: 2px 0 0;
+}
+
+.fc .fc-day-today {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.fc .fc-timegrid-axis {
+  border-right: 1px solid var(--border, #2d3a4f);
+}
+
+.fc .fc-scrollgrid-sync-table {
+  width: 100%;
+}
+
+.fc .fc-view-harness {
+  min-height: 720px;
+}
+
+.fc .fc-highlight {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.fc .fc-event-manual {
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.fc .fc-event-google {
+  border-left: 3px solid #0369a1;
+}
+
+.fc .fc-daygrid-day-frame {
+  min-height: 2.5rem;
+}
+
+.fc .fc-timegrid-all-day {
+  background: var(--surface, #1a2332);
+}
+
+.fc .fc-timegrid-all-day .fc-daygrid-event {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
