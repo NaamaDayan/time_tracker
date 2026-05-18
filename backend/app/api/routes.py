@@ -62,6 +62,7 @@ def timeline(
             metadata=seg.metadata_,
         )
         for seg, atype in rows
+        if not (seg.metadata_ or {}).get("exclude_from_windows")
     ]
     return TimelineResponse(
         from_=from_,
@@ -109,6 +110,7 @@ def aggregate(
             "color": atype.color,
         }
         for seg, atype in rows
+        if not (seg.metadata_ or {}).get("exclude_from_windows")
     ]
     result = aggregate_segments(
         segment_dicts,

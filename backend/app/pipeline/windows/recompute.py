@@ -14,6 +14,11 @@ from app.pipeline.windows.merge import (
 )
 
 
+def _segment_excluded_from_windows(seg: ActivitySegment) -> bool:
+    meta = seg.metadata_ or {}
+    return meta.get("exclude_from_windows") is True
+
+
 def _ensure_utc(dt: datetime) -> datetime:
     if dt.tzinfo is None:
         return dt.replace(tzinfo=timezone.utc)
@@ -59,7 +64,7 @@ def _load_segments_for_type_in_range(
 ) -> list[ActivitySegment]:
     from_ = _ensure_utc(from_)
     to = _ensure_utc(to)
-    return (
+    rows = (
         db.query(ActivitySegment)
         .filter(
             ActivitySegment.activity_type_slug == activity_type_slug,
@@ -69,6 +74,7 @@ def _load_segments_for_type_in_range(
         .order_by(ActivitySegment.started_at, ActivitySegment.id)
         .all()
     )
+    return [s for s in rows if not _segment_excluded_from_windows(s)]
 
 
 def _persist_windows(

@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.integrations import router as integrations_router
+from app.api.samsung_health import router as samsung_health_router
 from app.api.routes import router
 from app.api.segments import router as segments_router
 from app.api.windows import router as windows_router
@@ -28,6 +29,7 @@ app.include_router(router)
 app.include_router(segments_router)
 app.include_router(windows_router)
 app.include_router(integrations_router)
+app.include_router(samsung_health_router)
 
 
 @app.get("/")

@@ -1,0 +1,21 @@
+R_DEF: Internal format may change without notice
+local
+color health_primary
+color health_surface
+id apiKey
+id backendUrl
+id connectHealth
+id saveSettings
+id statusText
+id syncNow
+id toolbar
+layout activity_main
+string api_key_hint
+string api_key_label
+string app_name
+string backend_url_hint
+string backend_url_label
+string connect_health
+string save_settings
+string sync_now
+style Theme.TimeTrackerHealth

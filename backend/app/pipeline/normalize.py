@@ -4,7 +4,7 @@ from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from app.models import ActivitySegment, RawEvent
-from app.pipeline.classify import classify_clockify_entry, classify_google_calendar_event
+from app.pipeline.classify import classify_raw_event_safe
 from app.pipeline.windows.service import recompute_windows_for_segments
 
 
@@ -28,12 +28,10 @@ def rebuild_segments_for_raw_events(db: Session, raw_event_ids: list[int]) -> in
     written = 0
     segment_ids: list[int] = []
     for event in events:
-        if event.source == "clockify":
-            activity_slug, metadata = classify_clockify_entry(event.payload)
-        elif event.source == "google_calendar":
-            activity_slug, metadata = classify_google_calendar_event(event.payload)
-        else:
+        classified = classify_raw_event_safe(event.source, event.payload)
+        if classified is None:
             continue
+        activity_slug, metadata = classified
         segment = ActivitySegment(
             started_at=event.started_at,
             ended_at=event.ended_at,

@@ -30,7 +30,13 @@ def recompute_windows_for_segments(db: Session, segment_ids: list[int]) -> int:
     if not segments:
         return 0
 
-    bounds = compute_padded_bounds(segments)
+    segments_for_bounds = [
+        s for s in segments if not (s.metadata_ or {}).get("exclude_from_windows")
+    ]
+    if not segments_for_bounds:
+        return 0
+
+    bounds = compute_padded_bounds(segments_for_bounds)
     written = recompute_types_in_range(
         db,
         activity_type_slugs=set(bounds.keys()),

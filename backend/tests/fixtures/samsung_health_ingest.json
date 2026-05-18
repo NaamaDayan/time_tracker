@@ -1,0 +1,26 @@
+{
+  "synced_at": "2026-05-17T08:00:00Z",
+  "device_id": "test-device-1",
+  "records": [
+    {
+      "record_type": "sleep_session",
+      "external_id": "sleep:sh-sleep-uuid-1",
+      "started_at": "2026-05-16T22:30:00Z",
+      "ended_at": "2026-05-17T06:15:00Z",
+      "payload": { "duration_min": 465 }
+    },
+    {
+      "record_type": "exercise_session",
+      "external_id": "exercise:sh-exercise-uuid-2",
+      "started_at": "2026-05-17T07:00:00Z",
+      "ended_at": "2026-05-17T07:45:00Z",
+      "payload": { "exercise_type": "RUNNING", "calories": 320, "duration_sec": 2700 }
+    },
+    {
+      "record_type": "daily_steps",
+      "external_id": "steps:2026-05-16",
+      "local_date": "2026-05-16",
+      "step_count": 8420
+    }
+  ]
+}

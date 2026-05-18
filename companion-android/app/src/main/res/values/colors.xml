@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="health_primary">#059669</color>
+    <color name="health_surface">#1A2332</color>
+</resources>

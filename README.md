@@ -32,8 +32,10 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 alembic upgrade head
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+Use `--host 0.0.0.0` so your phone can reach the API over Wi‑Fi (not only `localhost` on the Mac).
 
 ### 4. Sync Clockify data
 
@@ -78,6 +80,21 @@ API docs (dev): [http://localhost:8000/docs](http://localhost:8000/docs) — req
 | `weekday_work_target` | Mon–Fri: ≥ 6h work per day |
 | `weekend_work_cap` | Sat–Sun: ≤ 2h work per day |
 | `weekly_work_total` | ≥ 40h work per ISO week |
+
+## Samsung Health (watch via phone)
+
+Health data is read from **Samsung Health** on your Android phone (Galaxy Watch syncs there), not from the watch API directly.
+
+1. Run backend with `API_KEY` set (see `.env`) and **`--host 0.0.0.0`** (see step 3 above).
+2. Open `companion-android/` in Android Studio, add `samsung-health-data-api.aar` to `app/libs/` (see [companion-android/README.md](companion-android/README.md)).
+3. Phone and Mac on the **same Wi‑Fi**. Backend URL must use your Mac’s IP on that network (e.g. `http://192.168.1.42:8000` — same subnet as the phone, not `localhost`).
+4. **Connect & grant permissions** → allow Sleep, Exercise, Steps → **Sync now**.
+5. **Refresh the web calendar** (reload the page or click **Sync Clockify** on the site) — the phone upload does not auto-refresh the browser.
+6. Sleep and workouts appear on the week **Calendar** (purple/indigo sleep blocks, green border for health events).
+
+**Automatic sync:** After **Save settings**, the Android app also syncs about every **12 hours** in the background (if permissions stay granted). For fresh data, use **Sync now** on the phone.
+
+Status: `GET /api/v1/integrations/samsung/status`
 
 ## Project layout
 

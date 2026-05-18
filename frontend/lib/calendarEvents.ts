@@ -112,12 +112,36 @@ export function windowIsEditable(win: ActivityWindow): boolean {
   );
 }
 
-export function windowTitle(win: ActivityWindow): string {
-  const base = win.activity_label;
-  if (win.segment_ids.length > 1) {
-    return `${base} (${win.segment_ids.length})`;
+function healthTitleSuffix(metadata: Record<string, unknown> | null | undefined): string {
+  if (!metadata) return "";
+  const category = metadata.health_category;
+  if (category === "exercise" && typeof metadata.exercise_type === "string") {
+    return ` · ${metadata.exercise_type}`;
   }
-  return base;
+  if (category === "sleep" && typeof metadata.woke_at === "string") {
+    const woke = new Date(metadata.woke_at);
+    if (!Number.isNaN(woke.getTime())) {
+      return ` · woke ${woke.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
+  }
+  return "";
+}
+
+export function windowTitle(win: ActivityWindow): string {
+  const meta = win.metadata as Record<string, unknown> | null | undefined;
+  const healthSuffix =
+    win.sources.includes("samsung_health") ? healthTitleSuffix(meta) : "";
+  const base =
+    meta?.health_category === "exercise"
+      ? "Exercise"
+      : meta?.health_category === "sleep"
+        ? win.activity_label
+        : win.activity_label;
+  const title = `${base}${healthSuffix}`;
+  if (win.segment_ids.length > 1) {
+    return `${title} (${win.segment_ids.length})`;
+  }
+  return title;
 }
 
 export function windowsToCalendarEvents(
@@ -128,6 +152,7 @@ export function windowsToCalendarEvents(
     const allDay = windowIsAllDay(win);
     const range = allDay ? allDayRangeFromWindow(win) : null;
     const hasGoogle = win.sources.includes("google_calendar");
+    const hasHealth = win.sources.includes("samsung_health");
     const isManualOnly = win.sources.length === 1 && win.sources[0] === "manual";
     const start =
       range?.start ??
@@ -146,6 +171,7 @@ export function windowsToCalendarEvents(
       borderColor: hasGoogle ? "#0ea5e9" : win.color,
       classNames: [
         hasGoogle ? "fc-event-google" : "",
+        hasHealth ? "fc-event-health" : "",
         isManualOnly ? "fc-event-manual" : "",
         win.segment_ids.length > 1 ? "fc-event-merged" : "",
       ].filter(Boolean),

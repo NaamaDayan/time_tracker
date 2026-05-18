@@ -143,6 +143,10 @@
   border-left: 3px solid #0369a1;
 }
 
+.fc .fc-event-health {
+  border-left: 3px solid #059669;
+}
+
 .fc .fc-daygrid-day-frame {
   min-height: 2.5rem;
 }

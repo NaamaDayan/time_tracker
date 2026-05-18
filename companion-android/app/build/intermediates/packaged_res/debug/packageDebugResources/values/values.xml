@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="health_primary">#059669</color>
+    <color name="health_surface">#1A2332</color>
+    <string name="api_key_hint">Same as API_KEY in .env</string>
+    <string name="api_key_label">API key</string>
+    <string name="app_name">Time Tracker Health</string>
+    <string name="backend_url_hint">http://192.168.1.10:8000</string>
+    <string name="backend_url_label">Backend URL</string>
+    <string name="connect_health">Connect &amp; grant permissions</string>
+    <string name="save_settings">Save settings</string>
+    <string name="sync_now">Sync now</string>
+    <style name="Theme.TimeTrackerHealth" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/health_primary</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+# Samsung Health ingest record_type → activity classification (applied in classify.py)
+record_types:
+  sleep_session:
+    activity: sleep
+    health_category: sleep
+    calendar_visible: true
+  exercise_session:
+    activity: sport
+    health_category: exercise
+    calendar_visible: true
+  daily_steps:
+    activity: sport
+    health_category: walk
+    calendar_visible: false
+    exclude_from_windows: true

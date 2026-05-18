@@ -102,9 +102,9 @@ export function WeekCalendar({
           center: "title",
           right: "",
         }}
-        height={720}
+        height={960}
         expandRows
-        slotMinTime="06:00:00"
+        slotMinTime="00:00:00"
         slotMaxTime="24:00:00"
         slotDuration="00:30:00"
         slotLabelInterval="01:00:00"
