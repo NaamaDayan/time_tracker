@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+from google.auth.exceptions import RefreshError
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2.credentials import Credentials
@@ -14,13 +15,25 @@ INITIAL_BACKFILL_DAYS = 30
 FORWARD_BUFFER_DAYS = 7
 
 
+class OAuthRevokedException(Exception):
+    """Raised when the Google OAuth refresh token is expired or revoked."""
+
+
 class GoogleCalendarClient:
     def __init__(self, oauth_data: dict[str, Any], *, calendar_id: str = "primary"):
         creds = credentials_from_oauth(oauth_data)
         if creds.expired and creds.refresh_token:
             from google.auth.transport.requests import Request
 
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request())
+            except Exception as e:
+                if "invalid_grant" in str(e):
+                    raise OAuthRevokedException(
+                        "Google Calendar token has been expired or revoked. "
+                        "Please re-connect Google Calendar."
+                    ) from e
+                raise
         self._creds = creds
         self._calendar_id = calendar_id
         self._service = build("calendar", "v3", credentials=creds, cache_discovery=False)
@@ -60,7 +73,15 @@ class GoogleCalendarClient:
             if page_token:
                 kwargs["pageToken"] = page_token
 
-            result = self._service.events().list(**kwargs).execute()
+            try:
+                result = self._service.events().list(**kwargs).execute()
+            except RefreshError as e:
+                if "invalid_grant" in str(e):
+                    raise OAuthRevokedException(
+                        "Google Calendar token has been expired or revoked. "
+                        "Please re-connect Google Calendar."
+                    ) from e
+                raise
             events.extend(result.get("items", []))
             page_token = result.get("nextPageToken")
             if result.get("nextSyncToken"):

@@ -32,6 +32,7 @@ def _duration_for_day(
         .filter(
             ActivitySegment.activity_type_slug == activity,
             ActivitySegment.started_at < day_end,
+            ActivitySegment.ended_at.isnot(None),
             ActivitySegment.ended_at > day_start,
         )
         .all()
@@ -129,6 +130,7 @@ def compute_habits_for_week(db: Session, year: int, week: int) -> list[dict[str,
                 .filter(
                     ActivitySegment.activity_type_slug == activity,
                     ActivitySegment.started_at < week_end,
+                    ActivitySegment.ended_at.isnot(None),
                     ActivitySegment.ended_at > week_start,
                 )
                 .all()

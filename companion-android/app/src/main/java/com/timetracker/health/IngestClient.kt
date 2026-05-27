@@ -17,9 +17,27 @@ class IngestClient(
         .readTimeout(60, TimeUnit.SECONDS)
         .build()
 
-    fun postBatch(batch: IngestBatch): Result<String> {
-        val url = "${backendUrl.trimEnd('/')}/api/v1/integrations/samsung/ingest"
+    fun postActivityWatchBatch(batch: IngestBatch): Result<String> =
+        postBatch(batch, "/api/v1/integrations/activitywatch/ingest")
+
+    fun postBatch(batch: IngestBatch): Result<String> =
+        postBatch(batch, "/api/v1/integrations/samsung/ingest")
+
+    fun postGeofenceEvent(jsonBody: String): Result<String> =
+        postJson(jsonBody, "/api/v1/integrations/location/geofence")
+
+    private fun postBatch(batch: IngestBatch, path: String): Result<String> {
         val body = gson.toJson(batch).toRequestBody(JSON)
+        return postRaw(body, path)
+    }
+
+    private fun postJson(jsonBody: String, path: String): Result<String> {
+        val body = jsonBody.toRequestBody(JSON)
+        return postRaw(body, path)
+    }
+
+    private fun postRaw(body: okhttp3.RequestBody, path: String): Result<String> {
+        val url = "${backendUrl.trimEnd('/')}$path"
         val request = Request.Builder()
             .url(url)
             .addHeader("X-API-Key", apiKey)

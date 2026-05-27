@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.timetracker.health.R;
 import java.lang.NullPointerException;
@@ -26,16 +27,43 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextInputEditText apiKey;
 
   @NonNull
+  public final TextInputEditText awBaseUrl;
+
+  @NonNull
   public final TextInputEditText backendUrl;
+
+  @NonNull
+  public final MaterialButton batteryOptimization;
 
   @NonNull
   public final MaterialButton connectHealth;
 
   @NonNull
+  public final TextInputEditText dawarichApiKey;
+
+  @NonNull
+  public final TextInputEditText dawarichBaseUrl;
+
+  @NonNull
+  public final MaterialCheckBox dawarichUploadOnCellular;
+
+  @NonNull
+  public final MaterialButton locationPermissions;
+
+  @NonNull
+  public final MaterialButton openActivityWatch;
+
+  @NonNull
   public final MaterialButton saveSettings;
 
   @NonNull
+  public final MaterialButton startLocation;
+
+  @NonNull
   public final TextView statusText;
+
+  @NonNull
+  public final MaterialButton syncActivityWatch;
 
   @NonNull
   public final MaterialButton syncNow;
@@ -44,16 +72,30 @@ public final class ActivityMainBinding implements ViewBinding {
   public final MaterialToolbar toolbar;
 
   private ActivityMainBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull TextInputEditText apiKey, @NonNull TextInputEditText backendUrl,
-      @NonNull MaterialButton connectHealth, @NonNull MaterialButton saveSettings,
-      @NonNull TextView statusText, @NonNull MaterialButton syncNow,
-      @NonNull MaterialToolbar toolbar) {
+      @NonNull TextInputEditText apiKey, @NonNull TextInputEditText awBaseUrl,
+      @NonNull TextInputEditText backendUrl, @NonNull MaterialButton batteryOptimization,
+      @NonNull MaterialButton connectHealth, @NonNull TextInputEditText dawarichApiKey,
+      @NonNull TextInputEditText dawarichBaseUrl,
+      @NonNull MaterialCheckBox dawarichUploadOnCellular,
+      @NonNull MaterialButton locationPermissions, @NonNull MaterialButton openActivityWatch,
+      @NonNull MaterialButton saveSettings, @NonNull MaterialButton startLocation,
+      @NonNull TextView statusText, @NonNull MaterialButton syncActivityWatch,
+      @NonNull MaterialButton syncNow, @NonNull MaterialToolbar toolbar) {
     this.rootView = rootView;
     this.apiKey = apiKey;
+    this.awBaseUrl = awBaseUrl;
     this.backendUrl = backendUrl;
+    this.batteryOptimization = batteryOptimization;
     this.connectHealth = connectHealth;
+    this.dawarichApiKey = dawarichApiKey;
+    this.dawarichBaseUrl = dawarichBaseUrl;
+    this.dawarichUploadOnCellular = dawarichUploadOnCellular;
+    this.locationPermissions = locationPermissions;
+    this.openActivityWatch = openActivityWatch;
     this.saveSettings = saveSettings;
+    this.startLocation = startLocation;
     this.statusText = statusText;
+    this.syncActivityWatch = syncActivityWatch;
     this.syncNow = syncNow;
     this.toolbar = toolbar;
   }
@@ -91,9 +133,21 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.awBaseUrl;
+      TextInputEditText awBaseUrl = ViewBindings.findChildViewById(rootView, id);
+      if (awBaseUrl == null) {
+        break missingId;
+      }
+
       id = R.id.backendUrl;
       TextInputEditText backendUrl = ViewBindings.findChildViewById(rootView, id);
       if (backendUrl == null) {
+        break missingId;
+      }
+
+      id = R.id.batteryOptimization;
+      MaterialButton batteryOptimization = ViewBindings.findChildViewById(rootView, id);
+      if (batteryOptimization == null) {
         break missingId;
       }
 
@@ -103,15 +157,57 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.dawarichApiKey;
+      TextInputEditText dawarichApiKey = ViewBindings.findChildViewById(rootView, id);
+      if (dawarichApiKey == null) {
+        break missingId;
+      }
+
+      id = R.id.dawarichBaseUrl;
+      TextInputEditText dawarichBaseUrl = ViewBindings.findChildViewById(rootView, id);
+      if (dawarichBaseUrl == null) {
+        break missingId;
+      }
+
+      id = R.id.dawarichUploadOnCellular;
+      MaterialCheckBox dawarichUploadOnCellular = ViewBindings.findChildViewById(rootView, id);
+      if (dawarichUploadOnCellular == null) {
+        break missingId;
+      }
+
+      id = R.id.locationPermissions;
+      MaterialButton locationPermissions = ViewBindings.findChildViewById(rootView, id);
+      if (locationPermissions == null) {
+        break missingId;
+      }
+
+      id = R.id.openActivityWatch;
+      MaterialButton openActivityWatch = ViewBindings.findChildViewById(rootView, id);
+      if (openActivityWatch == null) {
+        break missingId;
+      }
+
       id = R.id.saveSettings;
       MaterialButton saveSettings = ViewBindings.findChildViewById(rootView, id);
       if (saveSettings == null) {
         break missingId;
       }
 
+      id = R.id.startLocation;
+      MaterialButton startLocation = ViewBindings.findChildViewById(rootView, id);
+      if (startLocation == null) {
+        break missingId;
+      }
+
       id = R.id.statusText;
       TextView statusText = ViewBindings.findChildViewById(rootView, id);
       if (statusText == null) {
+        break missingId;
+      }
+
+      id = R.id.syncActivityWatch;
+      MaterialButton syncActivityWatch = ViewBindings.findChildViewById(rootView, id);
+      if (syncActivityWatch == null) {
         break missingId;
       }
 
@@ -127,8 +223,10 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((CoordinatorLayout) rootView, apiKey, backendUrl,
-          connectHealth, saveSettings, statusText, syncNow, toolbar);
+      return new ActivityMainBinding((CoordinatorLayout) rootView, apiKey, awBaseUrl, backendUrl,
+          batteryOptimization, connectHealth, dawarichApiKey, dawarichBaseUrl,
+          dawarichUploadOnCellular, locationPermissions, openActivityWatch, saveSettings,
+          startLocation, statusText, syncActivityWatch, syncNow, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

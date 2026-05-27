@@ -1,0 +1,18 @@
+[Unit]
+Description=Time Tracker FastAPI backend
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=YOU
+WorkingDirectory=/home/YOU/time_tracker_cursor/backend
+Environment=PYTHONPATH=/home/YOU/time_tracker_cursor/backend
+# Loads DATABASE_URL, API_KEY, etc.
+EnvironmentFile=/home/YOU/time_tracker_cursor/.env
+ExecStart=/home/YOU/time_tracker_cursor/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

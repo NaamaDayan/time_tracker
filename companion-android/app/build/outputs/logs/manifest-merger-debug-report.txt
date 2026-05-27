@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-22:12
-INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-22:12
-INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-22:12
-INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-22:12
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-53:12
+INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:2:1-53:12
 MERGED from [samsung-health-data-api-1.1.0.aar] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e8c5fbd3cd5b03b84a94885672fbbe5d/transformed/samsung-health-data-api-1.1.0/AndroidManifest.xml:2:1-14:12
 MERGED from [androidx.databinding:viewbinding:8.7.3] /Users/naamadayan/.gradle/caches/9.0.0/transforms/2f079a5566a9b55346fd17113c3d6088/transformed/viewbinding-8.7.3/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/36bf3ddb08cd5abbac8c2dc447134d01/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
@@ -14,6 +14,10 @@ MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] /Users/naamaday
 MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/f9a8ee7219f244b4265d2e53a6ca4f3f/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/627be28029bcbf1fa4e7702bc1ca2b07/transformed/viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1f9268b4aef0c80ef5857105d2eb1e88/transformed/play-services-location-21.3.0/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e4cd65b07321de53333990c71e202c2b/transformed/play-services-tasks-18.2.0/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.fragment:fragment:1.5.4] /Users/naamadayan/.gradle/caches/9.0.0/transforms/3a1913f74ed76c64d52c3613b8b5ab18/transformed/fragment-1.5.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/850a3955336e1e39943d3d17dbbf5f8e/transformed/activity-1.8.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/naamadayan/.gradle/caches/9.0.0/transforms/891fc0a28eeedf11ef0df0d6b6ed46cc/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
@@ -72,15 +76,65 @@ MERGED from [samsung-health-data-api-1.1.0.aar] /Users/naamadayan/.gradle/caches
 MERGED from [samsung-health-data-api-1.1.0.aar] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e8c5fbd3cd5b03b84a94885672fbbe5d/transformed/samsung-health-data-api-1.1.0/AndroidManifest.xml:12:5-67
 	android:name
 		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:4:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:5:5-79
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:5:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:6:5-81
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:6:22-78
+uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:7:5-85
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:7:22-82
+uses-permission#android.permission.ACTIVITY_RECOGNITION
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:9:5-79
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:24:5-79
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:9:22-76
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:10:5-77
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:26:5-77
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:26:5-77
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:10:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_LOCATION
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:11:5-86
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:11:22-83
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:12:5-81
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:25:5-81
+MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:25:5-81
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:12:22-78
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:13:5-77
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:13:22-74
 application
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:6:5-21:19
-INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:6:5-21:19
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:15:5-52:19
+INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:15:5-52:19
 MERGED from [com.google.android.material:material:1.12.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/36bf3ddb08cd5abbac8c2dc447134d01/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/36bf3ddb08cd5abbac8c2dc447134d01/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/7259e95106904c51abfd7f296eb0dfec/transformed/constraintlayout-2.2.0/AndroidManifest.xml:7:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/7259e95106904c51abfd7f296eb0dfec/transformed/constraintlayout-2.2.0/AndroidManifest.xml:7:5-20
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1f9268b4aef0c80ef5857105d2eb1e88/transformed/play-services-location-21.3.0/AndroidManifest.xml:6:5-20
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1f9268b4aef0c80ef5857105d2eb1e88/transformed/play-services-location-21.3.0/AndroidManifest.xml:6:5-20
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e4cd65b07321de53333990c71e202c2b/transformed/play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e4cd65b07321de53333990c71e202c2b/transformed/play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:5:5-7:19
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:5:5-7:19
 MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.core:core:1.15.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/15a2a0518524ee6010326b1af8d8848f/transformed/core-1.15.0/AndroidManifest.xml:28:5-89
@@ -100,33 +154,67 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/naam
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/15a2a0518524ee6010326b1af8d8848f/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:10:9-35
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:19:9-35
 	android:label
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:9:9-41
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:18:9-41
 	android:icon
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:8:9-57
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:17:9-57
 	android:allowBackup
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:7:9-36
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:16:9-36
 	android:theme
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:11:9-55
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:20:9-55
+	android:networkSecurityConfig
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:21:9-69
 	android:usesCleartextTraffic
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:12:9-44
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:22:9-44
 activity#com.timetracker.health.MainActivity
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:13:9-20:20
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:23:9-30:20
 	android:exported
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:15:13-36
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:25:13-36
 	android:name
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:14:13-41
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:24:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:16:13-19:29
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:26:13-29:29
 action#android.intent.action.MAIN
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:17:17-69
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:27:17-69
 	android:name
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:17:25-66
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:27:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:18:17-77
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:28:17-77
 	android:name
-		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:18:27-74
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:28:27-74
+service#com.timetracker.health.location.LocationTrackingService
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:32:9-35:56
+	android:exported
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:34:13-37
+	android:foregroundServiceType
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:35:13-53
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:33:13-61
+receiver#com.timetracker.health.location.GeofenceBroadcastReceiver
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:37:9-39:39
+	android:exported
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:39:13-36
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:38:13-63
+receiver#com.timetracker.health.location.ActivityRecognitionReceiver
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:41:9-43:39
+	android:exported
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:43:13-36
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:42:13-65
+receiver#com.timetracker.health.location.BootReceiver
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:45:9-51:20
+	android:exported
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:46:13-50
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:48:13-50:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:49:17-79
+	android:name
+		ADDED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml:49:25-76
 uses-sdk
 INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/src/main/AndroidManifest.xml
@@ -151,6 +239,14 @@ MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/627be28029bcbf1fa4e7702bc1ca2b07/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/627be28029bcbf1fa4e7702bc1ca2b07/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1f9268b4aef0c80ef5857105d2eb1e88/transformed/play-services-location-21.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1f9268b4aef0c80ef5857105d2eb1e88/transformed/play-services-location-21.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e4cd65b07321de53333990c71e202c2b/transformed/play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e4cd65b07321de53333990c71e202c2b/transformed/play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:3:5-44
 MERGED from [androidx.fragment:fragment:1.5.4] /Users/naamadayan/.gradle/caches/9.0.0/transforms/3a1913f74ed76c64d52c3613b8b5ab18/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.5.4] /Users/naamadayan/.gradle/caches/9.0.0/transforms/3a1913f74ed76c64d52c3613b8b5ab18/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.8.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/850a3955336e1e39943d3d17dbbf5f8e/transformed/activity-1.8.0/AndroidManifest.xml:20:5-44
@@ -277,22 +373,24 @@ ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0
 		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/e56085d14d2371c8efff742150ea4e9a/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/a5805a0aa6bfa3ad8698abf266aa2ea9/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/c4bbf138ff751076a75f28984f4dab02/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
 uses-permission#android.permission.WAKE_LOCK
 ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:23:5-68
 	android:name
 		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:23:22-65
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:24:5-79
-	android:name
-		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:24:22-76
-uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:25:5-81
-	android:name
-		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:25:22-78
-uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:26:5-77
-	android:name
-		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:26:22-74
 meta-data#androidx.work.WorkManagerInitializer
 ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:34:13-36:52
 	android:value
@@ -451,10 +549,6 @@ ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/
 		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:111:13-88
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.TIMEZONE_CHANGED+action:name:android.intent.action.TIME_SET
 ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:116:13-120:29
-action#android.intent.action.BOOT_COMPLETED
-ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:117:17-79
-	android:name
-		ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:117:25-76
 action#android.intent.action.TIME_SET
 ADDED from [androidx.work:work-runtime:2.10.0] /Users/naamadayan/.gradle/caches/9.0.0/transforms/1da7ab24ecd299018b059a06b72d8356/transformed/work-runtime-2.10.0/AndroidManifest.xml:118:17-73
 	android:name

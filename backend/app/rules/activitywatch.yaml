@@ -1,0 +1,37 @@
+# App-name / package substring rules (first match wins). Case-insensitive.
+default_activity: phone_usage
+app_rules:
+  - activity: communication
+    match:
+      - whatsapp
+      - telegram
+      - slack
+      - com.android.dialer
+      - com.samsung.android.dialer
+      - dialer
+      - phone
+  - activity: music_podcast
+    match:
+      - spotify
+      - com.spotify.music
+  - activity: consuming
+    match:
+      - youtube
+      - linkedin
+      - twitter
+      - com.twitter.android
+      - instagram
+      - facebook
+      - com.facebook
+  - activity: read
+    match:
+      - lithium
+      - lithuim
+  - activity: transport
+    match:
+      - maps
+      - waze
+      - moovit
+      - com.google.android.apps.maps
+      - com.waze
+      - com.tranzmate

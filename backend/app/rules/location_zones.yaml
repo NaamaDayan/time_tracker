@@ -1,0 +1,18 @@
+# Named geofence zones (zone_name matches companion-android/assets/geofence_zones.json)
+zones:
+  home:
+    activity: null
+    exclude_from_windows: true
+  office:
+    activity: work
+  gym:
+    activity: sport
+  parents:
+    activity: fun
+  restaurant:
+    activity: eat
+  beach:
+    activity: fun
+  bus_stop:
+    activity: transport
+default_activity: null

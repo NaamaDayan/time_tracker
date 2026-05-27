@@ -1,6 +1,10 @@
 [
     {
-        "merged": "com.timetracker.health.app-debug-42:/layout_activity_main.xml.flat",
-        "source": "com.timetracker.health.app-main-44:/layout/activity_main.xml"
+        "merged": "com.timetracker.health.app-debug-44:/layout_activity_main.xml.flat",
+        "source": "com.timetracker.health.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.timetracker.health.app-debug-44:/xml_network_security_config.xml.flat",
+        "source": "com.timetracker.health.app-main-46:/xml/network_security_config.xml"
     }
 ]

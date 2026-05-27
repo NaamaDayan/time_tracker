@@ -1,0 +1,16 @@
+{
+  "enter": {
+    "zone_name": "gym",
+    "transition": "ENTER",
+    "lat": 32.09,
+    "lon": 34.77,
+    "timestamp": "2026-05-22T10:00:00+00:00"
+  },
+  "exit": {
+    "zone_name": "gym",
+    "transition": "EXIT",
+    "lat": 32.09,
+    "lon": 34.77,
+    "timestamp": "2026-05-22T10:45:00+00:00"
+  }
+}

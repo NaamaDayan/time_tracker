@@ -28,6 +28,11 @@ def test_overlap_read_wins_over_sport():
     by_type = {s["activity_type"]: s["seconds"] for s in result["slices"]}
     assert by_type["read"] == 30 * 60
     assert by_type["sport"] == 30 * 60  # 15 min before + 15 min after read
+    assert result["total_seconds"] == 24 * 60 * 60
+    assert result["unattributed_seconds"] == 24 * 60 * 60 - 60 * 60
+    attributed_pct = sum(s["percent"] for s in result["slices"])
+    unattributed_pct = 100.0 * result["unattributed_seconds"] / result["total_seconds"]
+    assert abs(attributed_pct + unattributed_pct - 100.0) < 0.1
 
 
 def test_filter_activity_types():
@@ -43,4 +48,5 @@ def test_filter_activity_types():
         activity_types=["read"],
     )
     assert result["slices"] == []
-    assert result["total_seconds"] == 0
+    assert result["total_seconds"] == 24 * 60 * 60
+    assert result["unattributed_seconds"] == 24 * 60 * 60

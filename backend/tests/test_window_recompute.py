@@ -63,7 +63,7 @@ def test_cross_source_merge_in_db(db_session):
         started_at=base + timedelta(minutes=21),
         ended_at=base + timedelta(hours=1),
         activity_type_slug="work",
-        source="clockify",
+        source="activitywatch_desktop",
         confidence=1.0,
         raw_event_id=None,
     )
@@ -73,19 +73,20 @@ def test_cross_source_merge_in_db(db_session):
     backfill_all_windows(db_session)
     windows = db_session.query(ActivityWindow).all()
     assert len(windows) == 1
-    assert set(windows[0].sources) == {"clockify", "manual"}
+    assert set(windows[0].sources) == {"activitywatch_desktop", "manual"}
 
 
-def test_rebuild_segments_triggers_windows(db_session, clockify_entries):
-    entry = clockify_entries[0]
-    started, ended = datetime(2026, 5, 16, 9, 0, tzinfo=UTC), datetime(2026, 5, 16, 10, 0, tzinfo=UTC)
+def test_rebuild_segments_triggers_windows(db_session):
+    started = datetime(2026, 5, 16, 9, 0, tzinfo=UTC)
+    ended = datetime(2026, 5, 16, 10, 0, tzinfo=UTC)
+    payload = {"app": "VS Code", "title": "project.py"}
     raw_id = upsert_raw_event(
         db_session,
-        source="clockify",
-        external_id=entry["id"],
+        source="activitywatch_desktop",
+        external_id="aw-rebuild-1",
         started_at=started,
         ended_at=ended,
-        payload=entry,
+        payload=payload,
     )
     db_session.commit()
     rebuild_segments_for_raw_events(db_session, [raw_id])

@@ -1,7 +1,14 @@
 import type {
+  ActivityRuleConfig,
+  ActivityRuleConfigUpdateInput,
   ActivityType,
   AggregateResponse,
   ConfigResponse,
+  GpsZone,
+  GpsZoneCreateInput,
+  GpsZoneUpdateInput,
+  NetResponse,
+  PreviewResponse,
   Segment,
   TimelineResponse,
   WindowsResponse,
@@ -74,6 +81,13 @@ export function getActivityTypes(): Promise<ActivityType[]> {
   return fetchApi("/activity-types");
 }
 
+export function createActivityType(body: ActivityType): Promise<ActivityType> {
+  return fetchApi("/activity-types", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
 export function getTimeline(from: string, to: string): Promise<TimelineResponse> {
   const params = new URLSearchParams({ from, to });
   return fetchApi(`/timeline?${params}`);
@@ -94,6 +108,18 @@ export function getAggregate(
     params.set("types", types.join(","));
   }
   return fetchApi(`/aggregate?${params}`);
+}
+
+export function getNet(
+  from: string,
+  to: string,
+  types?: string[]
+): Promise<NetResponse> {
+  const params = new URLSearchParams({ from, to });
+  if (types?.length) {
+    params.set("types", types.join(","));
+  }
+  return fetchApi(`/net?${params}`);
 }
 
 export interface SyncSourcesResult {
@@ -137,4 +163,52 @@ export function updateSegment(id: number, body: SegmentUpdateInput): Promise<Seg
 
 export function deleteSegment(id: number): Promise<void> {
   return fetchApi(`/segments/${id}`, { method: "DELETE" });
+}
+
+export function getZones(): Promise<GpsZone[]> {
+  return fetchApi("/settings/zones/");
+}
+
+export function createZone(body: GpsZoneCreateInput): Promise<GpsZone> {
+  return fetchApi("/settings/zones/", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
+export function updateZone(id: string, body: GpsZoneUpdateInput): Promise<GpsZone> {
+  return fetchApi(`/settings/zones/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
+export function deleteZone(id: string): Promise<void> {
+  return fetchApi(`/settings/zones/${id}`, { method: "DELETE" });
+}
+
+export function getRuleConfigs(): Promise<ActivityRuleConfig[]> {
+  return fetchApi("/settings/rule-configs/");
+}
+
+export function updateRuleConfig(
+  slug: string,
+  body: ActivityRuleConfigUpdateInput
+): Promise<ActivityRuleConfig> {
+  return fetchApi(`/settings/rule-configs/${slug}`, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
+export function previewRuleConfig(
+  slug: string,
+  from?: string,
+  to?: string
+): Promise<PreviewResponse> {
+  const params = new URLSearchParams();
+  if (from) params.set("from", from);
+  if (to) params.set("to", to);
+  const qs = params.toString();
+  return fetchApi(`/settings/rule-configs/${slug}/preview${qs ? `?${qs}` : ""}`);
 }

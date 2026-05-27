@@ -2,22 +2,19 @@ from datetime import datetime, timezone
 
 from app.models import RawEvent
 from app.pipeline.habits import compute_habits_for_week
-from app.pipeline.normalize import entry_times_from_payload, rebuild_segments_for_raw_events
+from app.pipeline.normalize import rebuild_segments_for_raw_events
 
 
 def _add_work_segment(db_session, start: str, end: str, external_id: str):
-    entry = {
-        "id": external_id,
-        "timeInterval": {"start": start, "end": end},
-        "project": {"name": "Work"},
-    }
-    started, ended = entry_times_from_payload(entry)
+    started = datetime.fromisoformat(start.replace("Z", "+00:00"))
+    ended = datetime.fromisoformat(end.replace("Z", "+00:00"))
+    payload = {"app": "VS Code", "title": "project.py"}
     raw = RawEvent(
-        source="clockify",
+        source="activitywatch_desktop",
         external_id=external_id,
         started_at=started,
         ended_at=ended,
-        payload=entry,
+        payload=payload,
         ingested_at=datetime.now(timezone.utc),
     )
     db_session.add(raw)
@@ -26,7 +23,6 @@ def _add_work_segment(db_session, start: str, end: str, external_id: str):
 
 
 def test_weekday_work_target_partial_score(db_session):
-    # Monday 2026-05-11 — 4h work (below 6h target)
     _add_work_segment(db_session, "2026-05-11T06:00:00Z", "2026-05-11T10:00:00Z", "w1")
     results = compute_habits_for_week(db_session, 2026, 20)
     weekday = next(g for g in results if g["slug"] == "weekday_work_target")

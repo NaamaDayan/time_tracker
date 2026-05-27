@@ -9,11 +9,152 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U tracker -d time_tracker"]
       interval: 5s
       timeout: 5s
       retries: 5
 
+  # --- Dawarich (self-hosted location history) ---
+  dawarich_redis:
+    image: redis:7.4-alpine
+    container_name: dawarich_redis
+    command: >
+      redis-server
+      --save 900 1
+      --save 300 10
+      --appendonly no
+    networks:
+      - dawarich
+    volumes:
+      - dawarich_shared:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  dawarich_db:
+    # Apple Silicon (ARM64): postgis/postgis has no arm64 manifest — use imresamu image (Dawarich docs)
+    image: ${DAWARICH_DB_IMAGE:-imresamu/postgis:17-3.5-alpine}
+    container_name: dawarich_db
+    shm_size: 1G
+    networks:
+      - dawarich
+    volumes:
+      - dawarich_db_data:/var/lib/postgresql/data
+      - dawarich_shared:/var/shared
+    environment:
+      POSTGRES_USER: ${DAWARICH_POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${DAWARICH_POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${DAWARICH_POSTGRES_DB:-dawarich_development}
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DAWARICH_POSTGRES_USER:-postgres} -d ${DAWARICH_POSTGRES_DB:-dawarich_development}",
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  dawarich_app:
+    image: freikin/dawarich:latest
+    container_name: dawarich_app
+    networks:
+      - dawarich
+    ports:
+      - "${DAWARICH_APP_PORT:-3000}:3000"
+    volumes:
+      - dawarich_public:/var/app/public
+      - dawarich_watched:/var/app/tmp/imports/watched
+      - dawarich_storage:/var/app/storage
+    stdin_open: true
+    tty: true
+    entrypoint: web-entrypoint.sh
+    command: ["bin/rails", "server", "-p", "3000", "-b", "::"]
+    restart: on-failure
+    environment:
+      RAILS_ENV: ${DAWARICH_RAILS_ENV:-production}
+      REDIS_URL: redis://dawarich_redis:6379
+      DATABASE_HOST: dawarich_db
+      DATABASE_PORT: "5432"
+      DATABASE_USERNAME: ${DAWARICH_POSTGRES_USER:-postgres}
+      DATABASE_PASSWORD: ${DAWARICH_POSTGRES_PASSWORD:-password}
+      DATABASE_NAME: ${DAWARICH_POSTGRES_DB:-dawarich_development}
+      APPLICATION_HOSTS: ${DAWARICH_APPLICATION_HOSTS:-localhost,127.0.0.1,::1}
+      TIME_ZONE: ${DAWARICH_TIME_ZONE:-Asia/Jerusalem}
+      APPLICATION_PROTOCOL: http
+      SECRET_KEY_BASE: ${DAWARICH_SECRET_KEY_BASE:-CHANGE_ME_dawarich_secret}
+      RAILS_LOG_TO_STDOUT: "true"
+      SELF_HOSTED: "true"
+      STORE_GEODATA: "true"
+      PHOTON_API_HOST: ${PHOTON_API_HOST:-}
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+      dawarich_redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"'",
+        ]
+      interval: 15s
+      retries: 30
+      start_period: 60s
+      timeout: 10s
+
+  dawarich_sidekiq:
+    image: freikin/dawarich:latest
+    container_name: dawarich_sidekiq
+    networks:
+      - dawarich
+    volumes:
+      - dawarich_public:/var/app/public
+      - dawarich_watched:/var/app/tmp/imports/watched
+      - dawarich_storage:/var/app/storage
+    stdin_open: true
+    tty: true
+    entrypoint: sidekiq-entrypoint.sh
+    command: ["sidekiq"]
+    restart: on-failure
+    environment:
+      RAILS_ENV: ${DAWARICH_RAILS_ENV:-production}
+      REDIS_URL: redis://dawarich_redis:6379
+      DATABASE_HOST: dawarich_db
+      DATABASE_PORT: "5432"
+      DATABASE_USERNAME: ${DAWARICH_POSTGRES_USER:-postgres}
+      DATABASE_PASSWORD: ${DAWARICH_POSTGRES_PASSWORD:-password}
+      DATABASE_NAME: ${DAWARICH_POSTGRES_DB:-dawarich_development}
+      APPLICATION_HOSTS: ${DAWARICH_APPLICATION_HOSTS:-localhost,127.0.0.1,::1}
+      TIME_ZONE: ${DAWARICH_TIME_ZONE:-Asia/Jerusalem}
+      APPLICATION_PROTOCOL: http
+      SECRET_KEY_BASE: ${DAWARICH_SECRET_KEY_BASE:-CHANGE_ME_dawarich_secret}
+      RAILS_LOG_TO_STDOUT: "true"
+      SELF_HOSTED: "true"
+      STORE_GEODATA: "true"
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+      dawarich_redis:
+        condition: service_healthy
+      dawarich_app:
+        condition: service_healthy
+
+networks:
+  dawarich:
+
 volumes:
   pgdata:
+  dawarich_db_data:
+  dawarich_shared:
+  dawarich_public:
+  dawarich_watched:
+  dawarich_storage:

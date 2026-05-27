@@ -1,0 +1,35 @@
+# Desktop app classification rules (first match wins). Case-insensitive.
+# Matches against the "app" and "title" fields from aw-watcher-window events.
+default_activity: work
+app_rules:
+  - activity: communication
+    match:
+      - slack
+      - zoom
+      - microsoft teams
+      - teams
+      - discord
+      - telegram
+      - whatsapp
+      - facetime
+  - activity: music_podcast
+    match:
+      - spotify
+      - apple music
+      - music
+      - podcasts
+  - activity: consuming
+    match:
+      - youtube
+      - netflix
+      - twitter
+      - reddit
+      - instagram
+      - facebook
+      - linkedin
+      - tiktok
+  - activity: read
+    match:
+      - kindle
+      - books
+      - lithium

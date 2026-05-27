@@ -57,3 +57,31 @@ def test_get_windows(client, db_session):
     data = r.json()
     assert len(data["windows"]) == 1
     assert len(data["windows"][0]["segment_ids"]) == 2
+
+
+def test_get_windows_hides_shorter_than_merge_gap(client, db_session, monkeypatch):
+    from app.config import get_settings
+
+    monkeypatch.setenv("ACTIVITY_MERGE_GAP_MINUTES", "5")
+    get_settings.cache_clear()
+
+    base = datetime(2026, 5, 16, 10, 0, tzinfo=UTC)
+    db_session.add(
+        ActivitySegment(
+            started_at=base,
+            ended_at=base + timedelta(minutes=2),
+            activity_type_slug="work",
+            source="manual",
+            confidence=1.0,
+        )
+    )
+    db_session.commit()
+    backfill_all_windows(db_session)
+
+    from_ = base.isoformat()
+    to = (base + timedelta(days=1)).isoformat()
+    r = client.get("/api/v1/windows", params={"from": from_, "to": to})
+    assert r.status_code == 200
+    assert r.json()["windows"] == []
+
+    get_settings.cache_clear()

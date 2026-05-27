@@ -141,7 +141,7 @@ export function EventModal({
 
         {readOnly && (
           <p className={styles.hint}>
-            Synced events from Clockify or Google Calendar cannot be edited here.
+            Synced events from ActivityWatch or Google Calendar cannot be edited here.
           </p>
         )}
 

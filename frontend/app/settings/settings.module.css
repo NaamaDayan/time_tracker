@@ -1,0 +1,56 @@
+.shell {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  min-height: calc(100vh - 32px);
+}
+
+.sidebar {
+  flex: 0 0 220px;
+  position: sticky;
+  top: 24px;
+  align-self: flex-start;
+  padding: 16px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.backToApp {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.backToApp:hover {
+  text-decoration: underline;
+}
+
+.sidebarTitle {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .shell {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 100%;
+    position: static;
+  }
+}

@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any
 
 from app.pipeline.overlap import load_overlap_priority, winner_for_instant
+from app.pipeline.time_budget import day_budget_seconds
 
 
 def _ensure_utc(dt: datetime) -> datetime:
@@ -29,13 +30,17 @@ def aggregate_segments(
     window_start: datetime,
     window_end: datetime,
     activity_types: list[str] | None = None,
+    timezone_name: str = "UTC",
 ) -> dict[str, Any]:
     """
     segments: list of dicts with keys started_at, ended_at, activity_type (slug), activity_label, color
-    Returns seconds per activity after overlap resolution.
+    Returns seconds per activity after overlap resolution; percents use 24h * calendar days budget.
     """
     window_start = _ensure_utc(window_start)
     window_end = _ensure_utc(window_end)
+    calendar_days, budget_seconds = day_budget_seconds(
+        window_start, window_end, timezone_name=timezone_name
+    )
     priority = load_overlap_priority()
     allowed = set(activity_types) if activity_types else None
 
@@ -64,9 +69,10 @@ def aggregate_segments(
 
     if not clipped:
         return {
-            "total_seconds": 0,
+            "calendar_days": calendar_days,
+            "total_seconds": budget_seconds,
             "slices": [],
-            "unattributed_seconds": (window_end - window_start).total_seconds(),
+            "unattributed_seconds": budget_seconds,
         }
 
     boundaries: set[datetime] = {window_start, window_end}
@@ -99,21 +105,21 @@ def aggregate_segments(
                 colors[slug] = color
                 break
 
-    total_seconds = sum(totals.values())
-    window_seconds = (window_end - window_start).total_seconds()
+    attributed_seconds = sum(totals.values())
     slices = [
         {
             "activity_type": slug,
             "label": labels.get(slug, slug),
             "color": colors.get(slug, "#6366f1"),
             "seconds": seconds,
-            "percent": round(100.0 * seconds / total_seconds, 2) if total_seconds else 0,
+            "percent": round(100.0 * seconds / budget_seconds, 2) if budget_seconds else 0,
         }
         for slug, seconds in sorted(totals.items(), key=lambda x: -x[1])
     ]
 
     return {
-        "total_seconds": total_seconds,
+        "calendar_days": calendar_days,
+        "total_seconds": budget_seconds,
         "slices": slices,
-        "unattributed_seconds": max(0.0, window_seconds - total_seconds),
+        "unattributed_seconds": max(0.0, budget_seconds - attributed_seconds),
     }

@@ -5,11 +5,23 @@
     <string name="api_key_hint">Same as API_KEY in .env</string>
     <string name="api_key_label">API key</string>
     <string name="app_name">Time Tracker Health</string>
-    <string name="backend_url_hint">http://192.168.1.10:8000</string>
+    <string name="aw_url_hint">http://127.0.0.1:5600 — leave default unless AW uses another port</string>
+    <string name="aw_url_label">Activity Watch URL (on phone)</string>
+    <string name="backend_url_hint">http://100.x.x.x:8000 (Tailscale) or LAN IP</string>
     <string name="backend_url_label">Backend URL</string>
+    <string name="battery_optimization">Disable battery optimization</string>
     <string name="connect_health">Connect &amp; grant permissions</string>
+    <string name="dawarich_key_label">Dawarich API key</string>
+    <string name="dawarich_upload_cellular">Upload location on mobile data (Tailscale)</string>
+    <string name="dawarich_url_hint">http://100.x.x.x:3000 (Tailscale) or LAN IP</string>
+    <string name="dawarich_url_label">Dawarich URL</string>
+    <string name="location_permissions">Location permissions</string>
+    <string name="open_activitywatch">Open Activity Watch app</string>
     <string name="save_settings">Save settings</string>
-    <string name="sync_now">Sync now</string>
+    <string name="start_location">Start location tracking</string>
+    <string name="stop_location">Stop location tracking</string>
+    <string name="sync_activitywatch">Sync Activity Watch</string>
+    <string name="sync_now">Sync Samsung Health</string>
     <style name="Theme.TimeTrackerHealth" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/health_primary</item>
         <item name="colorOnPrimary">@android:color/white</item>

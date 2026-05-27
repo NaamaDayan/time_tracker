@@ -31,17 +31,38 @@ interface PieChartProps {
   unattributedSeconds?: number;
 }
 
+const UNATTRIBUTED_COLOR = "#3f3f46";
+
+function round(n: number, digits: number) {
+  const p = 10 ** digits;
+  return Math.round(n * p) / p;
+}
+
 export function PieChart({ slices, totalSeconds, unattributedSeconds = 0 }: PieChartProps) {
   if (totalSeconds <= 0) {
     return <p className={styles.empty}>No activity in this range for the selected types.</p>;
   }
+
+  const chartSlices =
+    unattributedSeconds > 0
+      ? [
+          ...slices,
+          {
+            activity_type: "__unattributed",
+            label: "Unattributed",
+            color: UNATTRIBUTED_COLOR,
+            seconds: unattributedSeconds,
+            percent: round((100 * unattributedSeconds) / totalSeconds, 2),
+          },
+        ]
+      : slices;
 
   const cx = 120;
   const cy = 120;
   const r = 100;
   let angle = -Math.PI / 2;
 
-  const paths = slices.map((slice) => {
+  const paths = chartSlices.map((slice) => {
     const sweep = (slice.seconds / totalSeconds) * Math.PI * 2;
     const start = angle;
     angle += sweep;
@@ -72,13 +93,6 @@ export function PieChart({ slices, totalSeconds, unattributedSeconds = 0 }: PieC
             </span>
           </li>
         ))}
-        {unattributedSeconds > 60 && (
-          <li className={styles.unattributed}>
-            <span className={styles.swatch} style={{ background: "var(--border)" }} />
-            <span className={styles.legendLabel}>Unattributed</span>
-            <span className={styles.legendMeta}>{formatDuration(unattributedSeconds)}</span>
-          </li>
-        )}
       </ul>
     </div>
   );

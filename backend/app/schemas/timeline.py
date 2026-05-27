@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 class SegmentOut(BaseModel):
     id: int
     started_at: datetime
-    ended_at: datetime
+    ended_at: datetime | None = None
     activity_type: str
     activity_label: str
     color: str

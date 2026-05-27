@@ -1,0 +1,37 @@
+default_activity: null
+osm_tag_rules:
+  - match:
+      amenity: restaurant
+    activity: eat
+  - match:
+      amenity: cafe
+    activity: eat
+  - match:
+      leisure: fitness_centre
+    activity: sport
+  - match:
+      leisure: sports_centre
+    activity: sport
+  - match:
+      amenity: bus_station
+    activity: transport
+  - match:
+      railway: station
+    activity: transport
+  - match:
+      highway: bus_stop
+    activity: transport
+name_keyword_rules:
+  - match:
+      - gym
+      - fitness
+      - crossfit
+    activity: sport
+  - match:
+      - office
+      - coworking
+    activity: work
+  - match:
+      - home
+    activity: null
+    exclude_from_windows: true

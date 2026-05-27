@@ -17,6 +17,9 @@ async function proxyRequest(request: NextRequest, path: string[]) {
       body: request.method !== "GET" && request.method !== "HEAD" ? await request.text() : undefined,
       cache: "no-store",
     });
+    if (res.status === 204) {
+      return new NextResponse(null, { status: 204 });
+    }
     const body = await res.text();
     return new NextResponse(body, {
       status: res.status,

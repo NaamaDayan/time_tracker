@@ -1,4 +1,0 @@
-#Mon May 18 12:46:33 IDT 2026
-base.0=/Users/naamadayan/Downloads/time_tracker_cursor/companion-android/app/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/0/classes.dex
-path.0=0/classes.dex
-renamed.0=classes.dex

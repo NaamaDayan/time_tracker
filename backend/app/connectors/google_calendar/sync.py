@@ -4,7 +4,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from app.connectors.google_calendar.client import GoogleCalendarClient
+from app.connectors.google_calendar.client import GoogleCalendarClient, OAuthRevokedException
 from app.connectors.sync_state import (
     delete_raw_event,
     read_sync_state,
@@ -69,8 +69,13 @@ def sync_google_calendar(db: Session) -> dict[str, Any]:
     calendar_id = state.get("calendar_id", "primary")
     sync_token = state.get("sync_token")
 
-    client = GoogleCalendarClient(oauth, calendar_id=calendar_id)
-    events, next_sync_token, mode = client.fetch_incremental_or_full(sync_token=sync_token)
+    try:
+        client = GoogleCalendarClient(oauth, calendar_id=calendar_id)
+        events, next_sync_token, mode = client.fetch_incremental_or_full(sync_token=sync_token)
+    except OAuthRevokedException:
+        logger.warning("Google Calendar OAuth revoked; clearing stored credentials")
+        write_sync_state(db, account, oauth={}, sync_token=None)
+        raise
 
     raw_upserted = 0
     deleted = 0

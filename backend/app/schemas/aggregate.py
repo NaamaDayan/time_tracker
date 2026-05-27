@@ -23,6 +23,7 @@ class AggregateResponse(BaseModel):
     from_: datetime = Field(serialization_alias="from")
     to: datetime
     timezone: str
+    calendar_days: int
     total_seconds: float
     unattributed_seconds: float
     slices: list[AggregateSlice]

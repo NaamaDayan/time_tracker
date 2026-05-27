@@ -11,7 +11,7 @@ def _seg(
     end: datetime,
     *,
     slug: str = "work",
-    source: str = "clockify",
+    source: str = "activitywatch_desktop",
 ) -> SegmentInput:
     return SegmentInput(
         id=id,
@@ -96,12 +96,12 @@ def test_overlap_union():
 def test_cross_source_merge():
     base = datetime(2026, 5, 16, 10, 0, tzinfo=UTC)
     segments = [
-        _seg(1, base, base + timedelta(minutes=20), source="clockify"),
+        _seg(1, base, base + timedelta(minutes=20), source="activitywatch_desktop"),
         _seg(2, base + timedelta(minutes=21), base + timedelta(hours=1), source="google_calendar"),
     ]
     windows = merge_segments(segments, activity_type_slug="work", gap_minutes=5)
     assert len(windows) == 1
-    assert set(windows[0].sources) == {"clockify", "google_calendar"}
+    assert set(windows[0].sources) == {"activitywatch_desktop", "google_calendar"}
 
 
 def test_empty_input():

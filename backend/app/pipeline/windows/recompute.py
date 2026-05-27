@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.models import ActivitySegment, ActivityWindow, ActivityWindowSegment
+from app.pipeline.rule_config import get_merge_gap_minutes
 from app.pipeline.windows.merge import (
     MergedWindow,
     merge_segments_by_type,
@@ -25,7 +26,10 @@ def _ensure_utc(dt: datetime) -> datetime:
     return dt.astimezone(timezone.utc)
 
 
-def _gap_timedelta() -> timedelta:
+def _gap_timedelta(db: Session | None = None, activity_type_slug: str | None = None) -> timedelta:
+    if db is not None and activity_type_slug is not None:
+        minutes = get_merge_gap_minutes(activity_type_slug, db)
+        return timedelta(minutes=minutes)
     return timedelta(minutes=get_settings().activity_merge_gap_minutes)
 
 
@@ -69,6 +73,7 @@ def _load_segments_for_type_in_range(
         .filter(
             ActivitySegment.activity_type_slug == activity_type_slug,
             ActivitySegment.started_at < to,
+            ActivitySegment.ended_at.isnot(None),
             ActivitySegment.ended_at > from_,
         )
         .order_by(ActivitySegment.started_at, ActivitySegment.id)
@@ -119,8 +124,8 @@ def recompute_type_in_range(
     Delete and rebuild windows for one activity type in [from_, to] (padded bounds
     should be applied by the caller).
     """
-    gap = _gap_timedelta()
-    gap_minutes = get_settings().activity_merge_gap_minutes
+    gap_minutes = get_merge_gap_minutes(activity_type_slug, db)
+    gap = timedelta(minutes=gap_minutes)
     from_ = _ensure_utc(from_)
     to = _ensure_utc(to)
 
@@ -159,10 +164,12 @@ def compute_padded_bounds(
     segments: list[ActivitySegment],
 ) -> dict[str, tuple[datetime, datetime]]:
     """Per activity type: min(start) - gap, max(end) + gap."""
-    gap = _gap_timedelta()
     bounds: dict[str, tuple[datetime, datetime]] = {}
     for seg in segments:
+        if seg.ended_at is None:
+            continue
         slug = seg.activity_type_slug
+        gap = _gap_timedelta(db, slug)
         start = _ensure_utc(seg.started_at)
         end = _ensure_utc(seg.ended_at)
         if slug not in bounds:

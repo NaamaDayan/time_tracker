@@ -4,7 +4,7 @@ import "@/styles/fullcalendar.css";
 
 export const metadata: Metadata = {
   title: "Time Tracker",
-  description: "Clockify week timeline and habits",
+  description: "ActivityWatch week timeline and habits",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { Tabs } from "@/components/Tabs";
 import type { ActivityType } from "@/lib/types";
-import { AggregatedView } from "./AggregatedView";
 import { CalendarView } from "./CalendarView";
+import { NetView } from "./NetView";
+import { PieChartView } from "./PieChartView";
 
 const SUB_TABS = [
   { id: "calendar" as const, label: "Calendar view" },
-  { id: "aggregated" as const, label: "Aggregated view" },
+  { id: "pie-chart" as const, label: "Pie chart view" },
+  { id: "net" as const, label: "Net view" },
 ];
 
 interface TimeTrackingPanelProps {
@@ -22,7 +24,7 @@ export function TimeTrackingPanel({
   activityTypes,
   refreshKey,
 }: TimeTrackingPanelProps) {
-  const [subTab, setSubTab] = useState<"calendar" | "aggregated">("calendar");
+  const [subTab, setSubTab] = useState<"calendar" | "pie-chart" | "net">("calendar");
 
   return (
     <div>
@@ -34,8 +36,11 @@ export function TimeTrackingPanel({
           refreshKey={refreshKey}
         />
       )}
-      {subTab === "aggregated" && (
-        <AggregatedView activityTypes={activityTypes} refreshKey={refreshKey} />
+      {subTab === "pie-chart" && (
+        <PieChartView activityTypes={activityTypes} refreshKey={refreshKey} />
+      )}
+      {subTab === "net" && (
+        <NetView activityTypes={activityTypes} refreshKey={refreshKey} />
       )}
     </div>
   );

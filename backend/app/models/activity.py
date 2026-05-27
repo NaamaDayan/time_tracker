@@ -21,7 +21,7 @@ class ActivitySegment(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
-    ended_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    ended_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     activity_type_slug: Mapped[str] = mapped_column(
         String(64), ForeignKey("activity_types.slug"), nullable=False
     )

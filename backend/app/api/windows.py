@@ -57,21 +57,28 @@ def list_windows(
         for wid in segment_ids_by_window:
             segment_ids_by_window[wid].sort()
 
-    windows = [
-        WindowOut(
-            id=win.id,
-            started_at=win.started_at,
-            ended_at=win.ended_at,
-            activity_type=win.activity_type_slug,
-            activity_label=atype.label,
-            color=atype.color,
-            confidence=win.confidence,
-            sources=list(win.sources) if win.sources else [],
-            segment_ids=segment_ids_by_window.get(win.id, []),
-            metadata={**(win.metadata_ or {}), **segment_meta_by_window.get(win.id, {})},
+    gap_minutes = get_settings().activity_merge_gap_minutes
+    min_duration_seconds = gap_minutes * 60
+
+    windows = []
+    for win, atype in rows:
+        duration = (win.ended_at - win.started_at).total_seconds()
+        if duration < min_duration_seconds:
+            continue
+        windows.append(
+            WindowOut(
+                id=win.id,
+                started_at=win.started_at,
+                ended_at=win.ended_at,
+                activity_type=win.activity_type_slug,
+                activity_label=atype.label,
+                color=atype.color,
+                confidence=win.confidence,
+                sources=list(win.sources) if win.sources else [],
+                segment_ids=segment_ids_by_window.get(win.id, []),
+                metadata={**(win.metadata_ or {}), **segment_meta_by_window.get(win.id, {})},
+            )
         )
-        for win, atype in rows
-    ]
 
     return WindowsResponse(
         from_=from_,

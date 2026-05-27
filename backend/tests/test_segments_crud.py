@@ -38,9 +38,6 @@ def test_classify_google_all_day_metadata():
 
 
 def test_create_update_delete_manual_segment(client, db_session):
-    db_session.add(ActivityType(slug="fun", label="Fun", color="#ec4899"))
-    db_session.commit()
-
     create = client.post(
         "/api/v1/segments",
         json={
@@ -73,7 +70,7 @@ def test_cannot_edit_synced_segment(client, db_session):
         started_at=datetime(2026, 5, 10, 9, 0, tzinfo=timezone.utc),
         ended_at=datetime(2026, 5, 10, 10, 0, tzinfo=timezone.utc),
         activity_type_slug="work",
-        source="clockify",
+        source="activitywatch_desktop",
         confidence=1.0,
     )
     db_session.add(seg)
