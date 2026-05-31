@@ -11,8 +11,10 @@ from app.api.location import router as location_router
 from app.api.samsung_health import router as samsung_health_router
 from app.api.routes import router
 from app.api.settings.rule_configs import router as rule_configs_router
+from app.api.settings.priority import router as priority_router
 from app.api.settings.zones import router as zones_router
 from app.database import SessionLocal
+from app.seed_activity_type_priority import seed_activity_type_priority
 from app.seed_rule_configs import seed_rule_configs
 from app.api.sources import router as sources_router
 from app.api.segments import router as segments_router
@@ -29,6 +31,7 @@ async def lifespan(_app: FastAPI):
     db = SessionLocal()
     try:
         seed_rule_configs(db)
+        seed_activity_type_priority(db)
     finally:
         db.close()
     start_scheduler()
@@ -57,6 +60,7 @@ app.include_router(location_router)
 app.include_router(sources_router)
 app.include_router(zones_router)
 app.include_router(rule_configs_router)
+app.include_router(priority_router)
 
 
 @app.get("/")

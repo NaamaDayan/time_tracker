@@ -14,6 +14,7 @@ def _add_manual_segment(db_session, start, end, slug="work"):
         ended_at=end,
         activity_type_slug=slug,
         source="manual",
+        source_manual=True,
         confidence=1.0,
         raw_event_id=None,
     )
@@ -74,6 +75,26 @@ def test_cross_source_merge_in_db(db_session):
     windows = db_session.query(ActivityWindow).all()
     assert len(windows) == 1
     assert set(windows[0].sources) == {"activitywatch_desktop", "manual"}
+
+
+def test_manual_segment_merges_with_adjacent_same_type(db_session):
+    base = datetime(2026, 5, 21, 10, 0, tzinfo=UTC)
+    _add_manual_segment(db_session, base, base + timedelta(minutes=30))
+    db_session.commit()
+    backfill_all_windows(db_session)
+    assert db_session.query(ActivityWindow).count() == 1
+
+    first_end = db_session.query(ActivityWindow).first().ended_at
+    new_manual = _add_manual_segment(
+        db_session,
+        first_end + timedelta(minutes=3),
+        first_end + timedelta(minutes=28),
+    )
+    db_session.commit()
+    recompute_windows_for_segments(db_session, [new_manual.id])
+    windows = db_session.query(ActivityWindow).filter(ActivityWindow.activity_type_slug == "work").all()
+    assert len(windows) == 1
+    assert windows[0].segment_count == 2
 
 
 def test_rebuild_segments_triggers_windows(db_session):

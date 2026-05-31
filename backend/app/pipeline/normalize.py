@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models import ActivitySegment, RawEvent
 from app.pipeline.classify import classify_raw_event_safe
+from app.pipeline.confidence import score_segment_confidence
 from app.pipeline.windows.service import recompute_windows_for_segments
 
 
@@ -26,12 +27,22 @@ def rebuild_segments_for_raw_events(db: Session, raw_event_ids: list[int]) -> in
         if classified is None:
             continue
         activity_slug, metadata = classified
+        confidence = score_segment_confidence(
+            event,
+            activity_type_slug=activity_slug,
+            source=event.source,
+            metadata=metadata,
+            db=db,
+            started_at=event.started_at,
+            ended_at=event.ended_at,
+        )
         segment = ActivitySegment(
             started_at=event.started_at,
             ended_at=event.ended_at,
             activity_type_slug=activity_slug,
             source=event.source,
-            confidence=1.0,
+            source_manual=False,
+            confidence=confidence,
             metadata_=metadata,
             raw_event_id=event.id,
         )

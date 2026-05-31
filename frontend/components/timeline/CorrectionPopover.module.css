@@ -1,0 +1,127 @@
+.content {
+  width: min(360px, 92vw);
+  background: var(--surface, #1e1e2e);
+  border: 1px solid var(--border, #333);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+
+.header {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.meta {
+  font-size: 12px;
+  color: var(--muted, #888);
+  margin-bottom: 12px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border, #333);
+  margin: 12px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.actions button {
+  flex: 1;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #444);
+  background: var(--surface, #2a2a3a);
+  color: var(--text, #eee);
+  cursor: pointer;
+}
+
+.actions button:hover {
+  border-color: var(--accent, #6366f1);
+}
+
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.field select,
+.field input {
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #444);
+  background: var(--bg, #111);
+  color: var(--text, #eee);
+}
+
+.applyRow {
+  margin-top: 8px;
+}
+
+.applyRow button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent, #6366f1);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.gapSection {
+  margin-top: 8px;
+}
+
+.gapToggle {
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  color: var(--accent, #6366f1);
+  cursor: pointer;
+}
+
+.gapForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.gapActions {
+  display: flex;
+  gap: 8px;
+}
+
+.gapActions button {
+  flex: 1;
+  padding: 6px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toast {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 8px;
+}

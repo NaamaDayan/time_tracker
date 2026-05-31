@@ -12,6 +12,7 @@ from app.models import (  # noqa: F401
     HabitGoal,
     SourceAccount,
 )
+from app.seed_activity_type_priority import seed_activity_type_priority
 from app.seed_rule_configs import seed_rule_configs
 from app.models.window import ActivityWindow, ActivityWindowSegment  # noqa: F401
 
@@ -77,9 +78,12 @@ def db_session():
     session.add(SourceAccount(source="activitywatch_desktop", display_name="ActivityWatch Desktop", is_active=True))
     session.commit()
     seed_rule_configs(session)
+    seed_activity_type_priority(session)
+    from app.pipeline.activity_priority import invalidate_activity_priority_cache
     from app.pipeline.rule_config import invalidate_rule_config_cache
 
     invalidate_rule_config_cache()
+    invalidate_activity_priority_cache()
 
     yield session
     session.close()

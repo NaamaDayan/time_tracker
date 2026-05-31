@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PieChart } from "@/components/PieChart";
-import { getAggregate } from "@/lib/api";
+import { getActivityPriority, getAggregate } from "@/lib/api";
 import { rangeForPreset } from "@/lib/dateRange";
 import type { ActivityType, AggregateResponse, TimeWindowPreset } from "@/lib/types";
 import styles from "./PieChartView.module.css";
@@ -28,6 +28,7 @@ export function PieChartView({ activityTypes, refreshKey }: PieChartViewProps) {
     () => new Set(activityTypes.map((t) => t.slug))
   );
   const [data, setData] = useState<AggregateResponse | null>(null);
+  const [priorityRanks, setPriorityRanks] = useState<Map<string, number>>(new Map());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -61,8 +62,12 @@ export function PieChartView({ activityTypes, refreshKey }: PieChartViewProps) {
         customTo || undefined
       );
       const types = selectedTypesKey ? selectedTypesKey.split(",") : undefined;
-      const result = await getAggregate(from.toISOString(), to.toISOString(), types);
+      const [result, priority] = await Promise.all([
+        getAggregate(from.toISOString(), to.toISOString(), types),
+        getActivityPriority(),
+      ]);
       setData(result);
+      setPriorityRanks(new Map(priority.map((p) => [p.slug, p.rank])));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load pie chart");
       setData(null);
@@ -156,9 +161,9 @@ export function PieChartView({ activityTypes, refreshKey }: PieChartViewProps) {
       </div>
 
       <p className={styles.hint}>
-        Overlapping time uses priority from{" "}
-        <code>backend/app/rules/overlap.yaml</code>. Slices + unattributed sum to 24h ×{" "}
-        {data?.calendar_days ?? "…"} day(s) in range.
+        Overlapping time uses your{" "}
+        <a href="/settings/priority">activity priority</a> order. Slices + unattributed sum to
+        24h × {data?.calendar_days ?? "…"} day(s) in range.
       </p>
       <p className={styles.range}>{rangeLabel}</p>
 
@@ -168,6 +173,7 @@ export function PieChartView({ activityTypes, refreshKey }: PieChartViewProps) {
           slices={data.slices}
           totalSeconds={data.total_seconds}
           unattributedSeconds={data.unattributed_seconds}
+          priorityRanks={priorityRanks}
         />
       )}
     </div>

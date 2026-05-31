@@ -8,6 +8,7 @@ from app.connectors.geofence.schemas import GeofenceEventIn
 from app.connectors.sync_state import upsert_raw_event, write_sync_state
 from app.models import ActivitySegment, SourceAccount
 from app.pipeline.classify import apply_rule_config_filters, classify_geofence_event
+from app.pipeline.confidence import score_segment_confidence
 from app.pipeline.windows.service import recompute_windows_for_segments
 
 logger = logging.getLogger(__name__)
@@ -120,7 +121,17 @@ def handle_geofence_event(db: Session, event: GeofenceEventIn) -> dict[str, Any]
                     ended_at=None,
                     activity_type_slug=activity_slug,
                     source=SOURCE,
-                    confidence=1.0,
+                    source_manual=False,
+                    confidence=score_segment_confidence(
+                        None,
+                        activity_type_slug=activity_slug,
+                        source=SOURCE,
+                        metadata=metadata,
+                        db=db,
+                        started_at=ts,
+                        ended_at=None,
+                        payload=payload,
+                    ),
                     metadata_={**metadata, "raw_event_id": raw_id},
                     raw_event_id=raw_id,
                 )
@@ -144,6 +155,16 @@ def handle_geofence_event(db: Session, event: GeofenceEventIn) -> dict[str, Any]
                 open_seg = None
             else:
                 open_seg.ended_at = ts
+                open_seg.confidence = score_segment_confidence(
+                    None,
+                    activity_type_slug=open_seg.activity_type_slug,
+                    source=SOURCE,
+                    metadata=open_seg.metadata_ or {},
+                    db=db,
+                    started_at=open_seg.started_at,
+                    ended_at=ts,
+                    payload=payload,
+                )
         if open_seg is not None:
             meta = dict(open_seg.metadata_ or {})
             meta["exit_raw_event_id"] = raw_id

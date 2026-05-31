@@ -1,0 +1,53 @@
+.block {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 20px;
+  padding: 2px 6px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.indicator {
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.indicatorPulse {
+  animation: confidencePulse 1.5s ease-in-out infinite;
+}
+
+.check {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+@keyframes confidencePulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}

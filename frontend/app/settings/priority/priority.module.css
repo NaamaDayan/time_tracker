@@ -1,0 +1,142 @@
+.main {
+  padding: 0;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+}
+
+.sub {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.callout {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.saveBar {
+  position: sticky;
+  bottom: 16px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.saveBar button {
+  pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.primaryBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.destructiveBtn {
+  padding: 8px 14px;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  background: transparent;
+  color: #ef4444;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.destructiveBtn:hover {
+  background: color-mix(in srgb, #ef4444 12%, transparent);
+}
+
+.confirmBox {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.confirmBtn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.confirmBtnDanger {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ef4444;
+  background: var(--surface);
+  color: #ef4444;
+  cursor: pointer;
+}
+
+.toastSuccess {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #22c55e 15%, transparent);
+  color: #16a34a;
+  font-size: 0.9rem;
+}
+
+.toastError {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.banner {
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ef4444;
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+}

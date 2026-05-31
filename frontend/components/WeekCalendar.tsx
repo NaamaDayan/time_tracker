@@ -1,11 +1,14 @@
 "use client";
 
+import type React from "react";
 import type {
   DateSelectArg,
   DatesSetArg,
   EventClickArg,
+  EventContentArg,
   EventDropArg,
   EventInput,
+  EventMountArg,
 } from "@fullcalendar/core";
 import type { EventResizeDoneArg } from "@fullcalendar/interaction";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -26,8 +29,10 @@ interface WeekCalendarProps {
   events: EventInput[];
   onDatesChange: (from: Date, to: Date) => void;
   onSelectRange?: (start: Date, end: Date, allDay: boolean) => void;
-  onEventClick?: (eventId: string) => void;
+  onEventClick?: (eventId: string, anchor: DOMRect) => void;
   onEventChange?: (change: CalendarEventChange) => void;
+  renderEventContent?: (arg: EventContentArg) => React.ReactNode;
+  highlightEventId?: string | null;
 }
 
 export function WeekCalendar({
@@ -37,6 +42,8 @@ export function WeekCalendar({
   onSelectRange,
   onEventClick,
   onEventChange,
+  renderEventContent,
+  highlightEventId,
 }: WeekCalendarProps) {
   const calendarRef = useRef<FullCalendar>(null);
 
@@ -58,9 +65,23 @@ export function WeekCalendar({
   const handleEventClick = useCallback(
     (arg: EventClickArg) => {
       arg.jsEvent.preventDefault();
-      if (arg.event.id) onEventClick?.(arg.event.id);
+      if (arg.event.id && arg.el) {
+        onEventClick?.(arg.event.id, arg.el.getBoundingClientRect());
+      }
     },
     [onEventClick]
+  );
+
+  const handleEventDidMount = useCallback(
+    (arg: EventMountArg) => {
+      if (arg.event.id) {
+        arg.el.dataset.eventId = arg.event.id;
+      }
+      if (highlightEventId && arg.event.id === highlightEventId) {
+        arg.el.classList.add("fc-event-review-highlight");
+      }
+    },
+    [highlightEventId]
   );
 
   const emitEventChange = useCallback(
@@ -131,6 +152,8 @@ export function WeekCalendar({
         eventClick={handleEventClick}
         eventDrop={handleEventDrop}
         eventResize={handleEventResize}
+        eventContent={renderEventContent}
+        eventDidMount={handleEventDidMount}
       />
     </div>
   );

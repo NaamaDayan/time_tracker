@@ -1,15 +1,3 @@
-# When multiple activity segments overlap, the type higher in this list wins for
-# aggregated duration (pie chart). Edit and add tests when changing.
-priority:
-  - read
-  - communication
-  - work
-  - sport
-  - transport
-  - consuming
-  - music_podcast
-  - fun
-  - eat
-  - phone_usage
-  - screen_time
-  - sleep
+# DEPRECATED: overlap priority is stored in activity_type_priorities (DB).
+# Configure order at Settings → Activity priority (/settings/priority).
+# This file is no longer read by GET /aggregate.

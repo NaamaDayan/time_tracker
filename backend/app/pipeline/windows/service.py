@@ -36,7 +36,7 @@ def recompute_windows_for_segments(db: Session, segment_ids: list[int]) -> int:
     if not segments_for_bounds:
         return 0
 
-    bounds = compute_padded_bounds(segments_for_bounds)
+    bounds = compute_padded_bounds(segments_for_bounds, db)
     written = recompute_types_in_range(
         db,
         activity_type_slugs=set(bounds.keys()),
@@ -93,7 +93,7 @@ def recompute_windows_after_segment_change(
     if not type_slugs:
         return 0
 
-    bounds = compute_padded_bounds(segments) if segments else {}
+    bounds = compute_padded_bounds(segments, db) if segments else {}
     gap = get_settings().activity_merge_gap_minutes
     from datetime import timedelta
 
@@ -135,7 +135,7 @@ def backfill_all_windows(
 
     type_slugs = {s.activity_type_slug for s in segments}
     if from_ is None or to is None:
-        bounds = compute_padded_bounds(segments)
+        bounds = compute_padded_bounds(segments, db)
     else:
         bounds = {slug: (from_, to) for slug in type_slugs}
 

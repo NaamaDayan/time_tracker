@@ -28,7 +28,24 @@ export interface ActivityWindow {
   confidence: number;
   sources: string[];
   segment_ids: number[];
+  segment_count: number;
+  confirmed_by_user: boolean;
+  dismissed_by_user: boolean;
+  correction_of_window_id: number | null;
   metadata?: Record<string, unknown> | null;
+}
+
+export interface WindowPatchInput {
+  confirmed_by_user?: boolean;
+  dismissed_by_user?: boolean;
+  activity_type_slug?: string;
+}
+
+export interface ManualWindowInput {
+  activity_type_slug: string;
+  started_at: string;
+  ended_at: string;
+  note?: string | null;
 }
 
 export interface WindowsResponse {
@@ -157,4 +174,17 @@ export interface PreviewResponse {
   segment_count: number;
   total_minutes: number;
   sample_segments: PreviewSegment[];
+}
+
+export interface ActivityPriorityItem {
+  slug: string;
+  rank: number;
+  display_name: string;
+  emoji: string;
+  color: string;
+}
+
+export interface ActivityPriorityPutItem {
+  slug: string;
+  rank: number;
 }

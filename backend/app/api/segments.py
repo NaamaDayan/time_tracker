@@ -82,6 +82,7 @@ def create_segment(body: SegmentCreate, db: Session = Depends(get_db)) -> Segmen
         ended_at=ended,
         activity_type_slug=body.activity_type,
         source=MANUAL_SOURCE,
+        source_manual=True,
         confidence=1.0,
         metadata_=metadata or None,
         raw_event_id=None,

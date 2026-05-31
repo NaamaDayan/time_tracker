@@ -181,6 +181,9 @@ export function windowsToCalendarEvents(
         activityType: win.activity_type,
         windowId: win.id,
         segmentIds: win.segment_ids,
+        confidence: win.confidence,
+        confirmedByUser: win.confirmed_by_user,
+        dismissedByUser: win.dismissed_by_user,
       },
     };
   });

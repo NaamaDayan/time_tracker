@@ -29,6 +29,8 @@ interface PieChartProps {
   slices: AggregateSlice[];
   totalSeconds: number;
   unattributedSeconds?: number;
+  /** slug → rank (lower = higher priority); legend sorted by rank */
+  priorityRanks?: Map<string, number>;
 }
 
 const UNATTRIBUTED_COLOR = "#3f3f46";
@@ -38,7 +40,12 @@ function round(n: number, digits: number) {
   return Math.round(n * p) / p;
 }
 
-export function PieChart({ slices, totalSeconds, unattributedSeconds = 0 }: PieChartProps) {
+export function PieChart({
+  slices,
+  totalSeconds,
+  unattributedSeconds = 0,
+  priorityRanks,
+}: PieChartProps) {
   if (totalSeconds <= 0) {
     return <p className={styles.empty}>No activity in this range for the selected types.</p>;
   }
@@ -72,22 +79,42 @@ export function PieChart({ slices, totalSeconds, unattributedSeconds = 0 }: PieC
     };
   });
 
+  const legendPaths = [...paths].sort((a, b) => {
+    if (a.activity_type === "__unattributed") return 1;
+    if (b.activity_type === "__unattributed") return -1;
+    const ra = priorityRanks?.get(a.activity_type) ?? 9999;
+    const rb = priorityRanks?.get(b.activity_type) ?? 9999;
+    if (ra !== rb) return ra - rb;
+    return a.label.localeCompare(b.label);
+  });
+
+  function sliceTitle(p: (typeof paths)[0]): string {
+    const base = `${p.label}: ${formatDuration(p.seconds)} (${p.percent}%)`;
+    if (p.activity_type === "__unattributed" || !priorityRanks?.has(p.activity_type)) {
+      return base;
+    }
+    return `${base} — wins overlaps by priority`;
+  }
+
   return (
     <div className={styles.wrap}>
       <svg viewBox="0 0 240 240" className={styles.chart} aria-label="Activity breakdown">
         {paths.map((p) => (
           <path key={p.activity_type} d={p.d} fill={p.color} stroke="var(--bg)" strokeWidth={1}>
-            <title>
-              {p.label}: {formatDuration(p.seconds)} ({p.percent}%)
-            </title>
+            <title>{sliceTitle(p)}</title>
           </path>
         ))}
       </svg>
       <ul className={styles.legend}>
-        {paths.map((p) => (
-          <li key={p.activity_type}>
+        {legendPaths.map((p) => (
+          <li key={p.activity_type} title={sliceTitle(p)}>
             <span className={styles.swatch} style={{ background: p.color }} />
-            <span className={styles.legendLabel}>{p.label}</span>
+            <span className={styles.legendLabel}>
+              {p.label}
+              {p.activity_type !== "__unattributed" && priorityRanks?.has(p.activity_type) && (
+                <span className={styles.priorityHint}> (priority)</span>
+              )}
+            </span>
             <span className={styles.legendMeta}>
               {formatDuration(p.seconds)} · {p.percent}%
             </span>

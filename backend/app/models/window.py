@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -24,8 +24,17 @@ class ActivityWindow(Base):
     segment_count: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     computed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     metadata_: Mapped[dict[str, Any] | None] = mapped_column("metadata", JSONB, nullable=True)
+    confirmed_by_user: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    dismissed_by_user: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    correction_of_window_id: Mapped[int | None] = mapped_column(
+        Integer, ForeignKey("activity_windows.id", ondelete="SET NULL"), nullable=True, index=True
+    )
 
     activity_type: Mapped["ActivityType"] = relationship()  # noqa: F821
+    correction_of: Mapped["ActivityWindow | None"] = relationship(
+        remote_side="ActivityWindow.id",
+        foreign_keys=[correction_of_window_id],
+    )
     window_segments: Mapped[list["ActivityWindowSegment"]] = relationship(
         back_populates="window", cascade="all, delete-orphan"
     )

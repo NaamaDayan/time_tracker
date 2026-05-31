@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import DateTime, Float, ForeignKey, String
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -26,6 +26,7 @@ class ActivitySegment(Base):
         String(64), ForeignKey("activity_types.slug"), nullable=False
     )
     source: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    source_manual: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=1.0)
     metadata_: Mapped[dict[str, Any] | None] = mapped_column("metadata", JSONB, nullable=True)
     raw_event_id: Mapped[int | None] = mapped_column(

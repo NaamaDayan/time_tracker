@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any
 
-from app.pipeline.overlap import load_overlap_priority, winner_for_instant
+from app.pipeline.overlap import winner_for_instant
 from app.pipeline.time_budget import day_budget_seconds
 
 
@@ -31,6 +31,7 @@ def aggregate_segments(
     window_end: datetime,
     activity_types: list[str] | None = None,
     timezone_name: str = "UTC",
+    priority_ranks: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     """
     segments: list of dicts with keys started_at, ended_at, activity_type (slug), activity_label, color
@@ -41,7 +42,8 @@ def aggregate_segments(
     calendar_days, budget_seconds = day_budget_seconds(
         window_start, window_end, timezone_name=timezone_name
     )
-    priority = load_overlap_priority()
+    if priority_ranks is None:
+        raise ValueError("priority_ranks is required")
     allowed = set(activity_types) if activity_types else None
 
     clipped: list[tuple[datetime, datetime, str, str, str]] = []
@@ -94,7 +96,7 @@ def aggregate_segments(
             for start, end, slug, _, _ in clipped
             if start < t1 and end > t0
         ]
-        winner = winner_for_instant(covering, priority)
+        winner = winner_for_instant(covering, priority_ranks)
         if winner is None:
             continue
         duration = (t1 - t0).total_seconds()

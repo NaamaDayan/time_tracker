@@ -20,6 +20,7 @@ class SegmentInput:
     ended_at: datetime
     source: str
     confidence: float = 1.0
+    user_confirmed: bool = False
 
 
 @dataclass
@@ -30,6 +31,7 @@ class MergedWindow:
     segment_ids: list[int] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
     confidence: float = 1.0
+    confirmed_by_user: bool = False
 
 
 def _ensure_utc(dt: datetime) -> datetime:
@@ -58,6 +60,7 @@ def _absorb_segment(current: MergedWindow, seg: SegmentInput) -> None:
     if seg.source not in current.sources:
         current.sources.append(seg.source)
     current.confidence = min(current.confidence, seg.confidence)
+    current.confirmed_by_user = current.confirmed_by_user or seg.user_confirmed
 
 
 def _segment_to_window(seg: SegmentInput) -> MergedWindow:
@@ -68,6 +71,7 @@ def _segment_to_window(seg: SegmentInput) -> MergedWindow:
         segment_ids=[seg.id],
         sources=[seg.source],
         confidence=seg.confidence,
+        confirmed_by_user=seg.user_confirmed,
     )
 
 
@@ -128,6 +132,9 @@ def merge_segments_by_type(
 
 def segment_input_from_row(seg: Any) -> SegmentInput:
     """Build SegmentInput from an ActivitySegment ORM instance."""
+    from app.pipeline.confidence import segment_user_confirmed
+
+    meta = seg.metadata_ or {}
     return SegmentInput(
         id=seg.id,
         activity_type_slug=seg.activity_type_slug,
@@ -135,4 +142,5 @@ def segment_input_from_row(seg: Any) -> SegmentInput:
         ended_at=seg.ended_at,
         source=seg.source,
         confidence=seg.confidence,
+        user_confirmed=segment_user_confirmed(meta),
     )

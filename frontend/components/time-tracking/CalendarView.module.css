@@ -44,3 +44,30 @@
   color: #ef4444;
   font-size: 14px;
 }
+
+.reviewBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  font-size: 14px;
+}
+
+.reviewBanner button {
+  background: transparent;
+  border: none;
+  color: var(--accent, #6366f1);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.toast {
+  color: #ef4444;
+  font-size: 13px;
+  margin: 0;
+}

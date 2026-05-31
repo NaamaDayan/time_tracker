@@ -12,4 +12,10 @@ export const SETTINGS_NAV_ITEMS = [
     description:
       "Map named places (home, office, gym) that drive location-based activity detection.",
   },
+  {
+    href: "/settings/priority",
+    label: "Activity priority",
+    description:
+      "Drag to set which activity wins when two overlap in the pie chart view.",
+  },
 ] as const;

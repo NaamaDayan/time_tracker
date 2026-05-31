@@ -1,4 +1,6 @@
 import type {
+  ActivityPriorityItem,
+  ActivityPriorityPutItem,
   ActivityRuleConfig,
   ActivityRuleConfigUpdateInput,
   ActivityType,
@@ -11,6 +13,9 @@ import type {
   PreviewResponse,
   Segment,
   TimelineResponse,
+  ActivityWindow,
+  ManualWindowInput,
+  WindowPatchInput,
   WindowsResponse,
 } from "./types";
 
@@ -93,9 +98,40 @@ export function getTimeline(from: string, to: string): Promise<TimelineResponse>
   return fetchApi(`/timeline?${params}`);
 }
 
-export function getWindows(from: string, to: string): Promise<WindowsResponse> {
+export interface GetWindowsOptions {
+  includeDismissed?: boolean;
+  minConfidence?: number;
+}
+
+export function getWindows(
+  from: string,
+  to: string,
+  options?: GetWindowsOptions
+): Promise<WindowsResponse> {
   const params = new URLSearchParams({ from, to });
+  if (options?.includeDismissed) params.set("include_dismissed", "true");
+  if (options?.minConfidence != null) {
+    params.set("min_confidence", String(options.minConfidence));
+  }
   return fetchApi(`/windows?${params}`);
+}
+
+export function patchWindow(id: number, body: WindowPatchInput): Promise<ActivityWindow> {
+  return fetchApi(`/windows/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
+export function createManualWindow(body: ManualWindowInput): Promise<ActivityWindow> {
+  return fetchApi("/windows/manual", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
+export function deleteManualWindow(id: number): Promise<void> {
+  return fetchApi(`/windows/manual/${id}`, { method: "DELETE" });
 }
 
 export function getAggregate(
@@ -211,4 +247,17 @@ export function previewRuleConfig(
   if (to) params.set("to", to);
   const qs = params.toString();
   return fetchApi(`/settings/rule-configs/${slug}/preview${qs ? `?${qs}` : ""}`);
+}
+
+export function getActivityPriority(): Promise<ActivityPriorityItem[]> {
+  return fetchApi("/settings/activity-priority/");
+}
+
+export function putActivityPriority(
+  body: ActivityPriorityPutItem[]
+): Promise<ActivityPriorityItem[]> {
+  return fetchApi("/settings/activity-priority/", {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
 }

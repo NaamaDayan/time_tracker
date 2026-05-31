@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST http://localhost:5600/api/0/query/ -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 collectors/collect_activitywatch.py --date 2026-05-29 --dry-run)",
+      "Bash(ls ~/.cursor/User/workspaceStorage/ | head -20 *)",
+      "Bash(find ~/.cursor/User/workspaceStorage -name \"backup.db\" -o -name \"state.vscdb\" 2>/dev/null | head -20)",
+      "Bash(ls \"/Users/naamadayan/Library/Application Support/Cursor/User/workspaceStorage/\" | head -20 *)",
+      "Bash(pip3 install *)",
+      "Bash(python3 collectors/collect_cursor.py --date 2026-05-28 --dry-run)",
+      "mcp__adbb68ff-16e6-4fc1-a225-a47b31b4ecc5__notion-fetch",
+      "mcp__adbb68ff-16e6-4fc1-a225-a47b31b4ecc5__notion-search",
+      "Bash(pip3 show *)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"from notion_client import Client; n=Client\\(auth='x'\\); print\\('databases methods:', [m for m in dir\\(n.databases\\) if not m.startswith\\('_'\\)]\\)\")",
+      "Bash(pip3 index *)",
+      "Bash(python3 context/init_context_page.py)",
+      "Bash(python -m py_compile pipeline/plan_store.py)",
+      "Bash(python -m py_compile pipeline/summarizer.py)",
+      "Bash(python -m py_compile pipeline/run_daily.py)",
+      "Bash(python -m py_compile delivery/telegram_send.py)",
+      "Bash(python -m py_compile delivery/telegram_webhook.py)",
+      "Bash(python3 -m py_compile pipeline/plan_store.py)",
+      "Bash(python3 -m py_compile pipeline/summarizer.py)",
+      "Bash(python3 -m py_compile pipeline/run_daily.py)",
+      "Bash(python3 -m py_compile delivery/telegram_send.py)",
+      "Bash(python3 -m py_compile delivery/telegram_webhook.py)",
+      "Bash(python3 -m py_compile collectors/collect_activitywatch.py)",
+      "Bash(python3 pipeline/summarizer.py --test --show-prompt)",
+      "Bash(python3 pipeline/plan_store.py --list)",
+      "Bash(python3 pipeline/plan_store.py --show)",
+      "Bash(python3 pipeline/plan_store.py --telegram)",
+      "Bash(python3 pipeline/plan_store.py --date today --show)",
+      "Bash(python3 -m pytest --version)",
+      "Bash(make test *)",
+      "Bash(make plan *)"
+    ]
+  }
+}

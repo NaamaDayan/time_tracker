@@ -13,6 +13,7 @@ from app.connectors.sync_all import sync_all_sources
 from app.connectors.utils import parse_since
 from app.database import get_db
 from app.models import ActivitySegment, ActivityType
+from app.pipeline.activity_priority import get_priority_ranks
 from app.pipeline.aggregate import aggregate_segments
 from app.pipeline.net import net_totals_segments
 from app.pipeline.time_budget import calendar_days_in_range
@@ -143,12 +144,14 @@ def aggregate(
         if not (seg.metadata_ or {}).get("exclude_from_windows")
     ]
     settings = get_settings()
+    ranks = get_priority_ranks(db)
     result = aggregate_segments(
         segment_dicts,
         window_start=from_,
         window_end=to,
         activity_types=activity_filter,
         timezone_name=settings.user_timezone,
+        priority_ranks=ranks,
     )
     return AggregateResponse(
         from_=from_,

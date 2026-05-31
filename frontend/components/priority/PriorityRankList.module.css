@@ -1,0 +1,72 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.rowDisabled {
+  opacity: 0.55;
+}
+
+.handle {
+  cursor: grab;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 4px 6px;
+  touch-action: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.handle:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.rank {
+  min-width: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.label {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.disabledNote {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.dragging {
+  opacity: 0.85;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

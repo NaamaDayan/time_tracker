@@ -44,6 +44,12 @@
   font-size: 12px;
 }
 
+.priorityHint {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .unattributed .legendLabel {
   color: var(--muted);
 }

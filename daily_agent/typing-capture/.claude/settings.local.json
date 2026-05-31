@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls .venv/bin/python3 2>/dev/null && echo \"venv exists\" || echo \"no venv\")",
+      "Bash(.venv/bin/pip list *)",
+      "Bash(.venv/bin/python3 -c ' *)",
+      "Bash(launchctl list *)",
+      "Bash(cat ~/typing-logs/capture-stderr.log 2>/dev/null || echo \"\\(no stderr log\\)\")"
+    ]
+  }
+}

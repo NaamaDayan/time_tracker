@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.models import ActivitySegment, ActivityWindow, ActivityWindowSegment
+from app.pipeline.confidence import derive_window_confidence
 from app.pipeline.rule_config import get_merge_gap_minutes
 from app.pipeline.windows.merge import (
     MergedWindow,
@@ -104,11 +105,14 @@ def _persist_windows(
             segment_count=len(win.segment_ids),
             computed_at=now,
             metadata_=metadata_snapshot,
+            confirmed_by_user=win.confirmed_by_user,
         )
         db.add(window)
         db.flush()
         for seg_id in win.segment_ids:
             db.add(ActivityWindowSegment(window_id=window.id, segment_id=seg_id))
+        db.flush()
+        window.confidence = derive_window_confidence(window.id, db)
 
     return len(merged)
 
@@ -162,6 +166,7 @@ def recompute_types_in_range(
 
 def compute_padded_bounds(
     segments: list[ActivitySegment],
+    db: Session | None = None,
 ) -> dict[str, tuple[datetime, datetime]]:
     """Per activity type: min(start) - gap, max(end) + gap."""
     bounds: dict[str, tuple[datetime, datetime]] = {}

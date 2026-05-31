@@ -1,6 +1,9 @@
 "use client";
 
+import type { EventContentArg } from "@fullcalendar/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityBlock } from "@/components/timeline/ActivityBlock";
+import { CorrectionPopover } from "@/components/timeline/CorrectionPopover";
 import {
   EventModal,
   eventFormFromRange,
@@ -8,16 +11,13 @@ import {
   type EventFormValues,
 } from "@/components/EventModal";
 import { WeekCalendar, type CalendarEventChange } from "@/components/WeekCalendar";
+import { useWindowCorrections } from "@/hooks/useWindowCorrections";
 import {
   createSegment,
-  deleteSegment,
   getWindows,
   updateSegment,
 } from "@/lib/api";
-import {
-  windowIsEditable,
-  windowsToCalendarEvents,
-} from "@/lib/calendarEvents";
+import { windowIsEditable, windowTitle, windowsToCalendarEvents } from "@/lib/calendarEvents";
 import type { ActivityType, ActivityWindow } from "@/lib/types";
 import styles from "./CalendarView.module.css";
 
@@ -28,53 +28,34 @@ interface CalendarViewProps {
   onDataChange?: () => void;
 }
 
-type ModalState =
-  | { kind: "closed" }
-  | { kind: "create"; initial: EventFormValues }
-  | {
-      kind: "edit";
-      window: ActivityWindow;
-      segmentId: number | null;
-      readOnly: boolean;
-      initial: EventFormValues;
-    };
+type ModalState = { kind: "closed" } | { kind: "create"; initial: EventFormValues };
 
-function eventFormFromWindow(win: ActivityWindow, allDay: boolean): EventFormValues {
-  const start = new Date(win.started_at);
-  const end = new Date(win.ended_at);
-  const toLocalDateInput = (d: Date) => {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  };
-  const toLocalTimeInput = (d: Date) => {
-    const h = String(d.getHours()).padStart(2, "0");
-    const min = String(d.getMinutes()).padStart(2, "0");
-    return `${h}:${min}`;
-  };
-  return {
-    title: "",
-    activityType: win.activity_type,
-    allDay,
-    startDate: toLocalDateInput(start),
-    startTime: toLocalTimeInput(start),
-    endDate: toLocalDateInput(end),
-    endTime: toLocalTimeInput(end),
-  };
+const LOW_CONFIDENCE = 0.5;
+const REVIEW_BANNER_MIN = 3;
+const REVIEW_MAX_DAYS = 7;
+
+function windowOnToday(win: ActivityWindow, timezone: string): boolean {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const today = fmt.format(new Date());
+  const startDay = fmt.format(new Date(win.started_at));
+  return startDay === today;
 }
 
-function windowIsAllDay(win: ActivityWindow): boolean {
-  const start = new Date(win.started_at);
+function daysSinceWindow(win: ActivityWindow, timezone: string): number {
   const end = new Date(win.ended_at);
-  const durationMs = end.getTime() - start.getTime();
-  return (
-    durationMs >= 23 * 60 * 60 * 1000 &&
-    start.getUTCHours() === 0 &&
-    start.getUTCMinutes() === 0 &&
-    end.getUTCHours() === 23 &&
-    end.getUTCMinutes() >= 59
-  );
+  const now = new Date();
+  const fmtDay = (d: Date) =>
+    new Intl.DateTimeFormat("en-CA", { timeZone: timezone }).format(d);
+  const endDay = fmtDay(end);
+  const today = fmtDay(now);
+  if (endDay === today) return 0;
+  const diff = now.getTime() - end.getTime();
+  return Math.floor(diff / (24 * 60 * 60 * 1000));
 }
 
 export function CalendarView({
@@ -87,9 +68,16 @@ export function CalendarView({
   const [windows, setWindows] = useState<ActivityWindow[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalState>({ kind: "closed" });
   const [modalError, setModalError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [selectedWindow, setSelectedWindow] = useState<ActivityWindow | null>(null);
+  const [anchorPosition, setAnchorPosition] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const [highlightEventId, setHighlightEventId] = useState<string | null>(null);
 
   const load = useCallback(async (from: Date, to: Date) => {
     setLoading(true);
@@ -114,6 +102,14 @@ export function CalendarView({
     }
   }, [range, load, refreshKey]);
 
+  const corrections = useWindowCorrections({
+    windows,
+    setWindows,
+    refetchRange: load,
+    range,
+    onError: (msg) => setToast(msg),
+  });
+
   const events = useMemo(
     () => windowsToCalendarEvents(windows, timezone),
     [windows, timezone]
@@ -125,10 +121,37 @@ export function CalendarView({
     return map;
   }, [windows]);
 
-  const closeModal = useCallback(() => {
-    setModal({ kind: "closed" });
-    setModalError(null);
-  }, []);
+  const lowConfidenceToday = useMemo(() => {
+    return windows.filter(
+      (w) =>
+        windowOnToday(w, timezone) &&
+        daysSinceWindow(w, timezone) <= REVIEW_MAX_DAYS &&
+        w.confidence < LOW_CONFIDENCE &&
+        !w.confirmed_by_user &&
+        !w.dismissed_by_user
+    );
+  }, [windows, timezone]);
+
+  const showReviewBanner = lowConfidenceToday.length >= REVIEW_BANNER_MIN;
+
+  const renderEventContent = useCallback(
+    (arg: EventContentArg) => {
+      const win = windowById.get(arg.event.id);
+      if (!win) return undefined;
+      return <ActivityBlock window={win} title={windowTitle(win)} />;
+    },
+    [windowById]
+  );
+
+  const openPopoverForWindow = useCallback(
+    (win: ActivityWindow, rect: DOMRect) => {
+      setSelectedWindow(win);
+      setAnchorPosition({ x: rect.right, y: rect.top + rect.height / 2 });
+      setPopoverOpen(true);
+      setHighlightEventId(String(win.id));
+    },
+    []
+  );
 
   const handleSelectRange = useCallback(
     (start: Date, end: Date, allDay: boolean) => {
@@ -148,23 +171,28 @@ export function CalendarView({
   );
 
   const handleEventClick = useCallback(
-    (eventId: string) => {
+    (eventId: string, anchor: DOMRect) => {
       const win = windowById.get(eventId);
       if (!win) return;
-      const allDay = windowIsAllDay(win);
-      const editable = windowIsEditable(win);
-      const segmentId = editable ? win.segment_ids[0]! : null;
-      setModalError(null);
-      setModal({
-        kind: "edit",
-        window: win,
-        segmentId,
-        readOnly: !editable,
-        initial: eventFormFromWindow(win, allDay),
-      });
+      openPopoverForWindow(win, anchor);
     },
-    [windowById]
+    [windowById, openPopoverForWindow]
   );
+
+  const handleReviewClick = useCallback(() => {
+    const first = lowConfidenceToday[0];
+    if (!first) return;
+    const el = document.querySelector(`[data-event-id="${first.id}"]`);
+    if (el instanceof HTMLElement) {
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      openPopoverForWindow(first, el.getBoundingClientRect());
+    } else {
+      openPopoverForWindow(
+        first,
+        new DOMRect(200, 200, 1, 40)
+      );
+    }
+  }, [lowConfidenceToday, openPopoverForWindow]);
 
   const handleEventChange = useCallback(
     async (change: CalendarEventChange) => {
@@ -194,24 +222,14 @@ export function CalendarView({
       setModalError(null);
       const { started_at, ended_at, all_day } = eventFormToIsoRange(values);
       try {
-        if (modal.kind === "create") {
-          await createSegment({
-            started_at,
-            ended_at,
-            activity_type: values.activityType,
-            title: values.title || null,
-            all_day,
-          });
-        } else if (modal.kind === "edit" && modal.segmentId != null) {
-          await updateSegment(modal.segmentId, {
-            started_at,
-            ended_at,
-            activity_type: values.activityType,
-            title: values.title || null,
-            all_day,
-          });
-        }
-        closeModal();
+        await createSegment({
+          started_at,
+          ended_at,
+          activity_type: values.activityType,
+          title: values.title || null,
+          all_day,
+        });
+        setModal({ kind: "closed" });
         if (range) await load(range.from, range.to);
         onDataChange?.();
       } catch (e) {
@@ -220,39 +238,26 @@ export function CalendarView({
         setSaving(false);
       }
     },
-    [modal, closeModal, range, load, onDataChange]
+    [range, load, onDataChange]
   );
-
-  const handleDelete = useCallback(async () => {
-    if (modal.kind !== "edit" || modal.readOnly || modal.segmentId == null) return;
-    if (!window.confirm("Delete this event?")) return;
-    setSaving(true);
-    setModalError(null);
-    try {
-      await deleteSegment(modal.segmentId);
-      closeModal();
-      if (range) await load(range.from, range.to);
-      onDataChange?.();
-    } catch (e) {
-      setModalError(e instanceof Error ? e.message : "Failed to delete event");
-    } finally {
-      setSaving(false);
-    }
-  }, [modal, closeModal, range, load, onDataChange]);
-
-  const modalProps =
-    modal.kind === "closed"
-      ? null
-      : {
-          mode: modal.kind as "create" | "edit",
-          open: true,
-          initial: modal.initial,
-          readOnly: modal.kind === "edit" ? modal.readOnly : false,
-          onDelete: modal.kind === "edit" && !modal.readOnly ? handleDelete : undefined,
-        };
 
   return (
     <div className={styles.root}>
+      {showReviewBanner && (
+        <div className={styles.reviewBanner} role="status">
+          <span>
+            ⚠ {lowConfidenceToday.length} activities today may be wrong
+          </span>
+          <button type="button" onClick={handleReviewClick}>
+            Review →
+          </button>
+        </div>
+      )}
+      {toast && (
+        <p className={styles.toast} onAnimationEnd={() => setToast(null)}>
+          {toast}
+        </p>
+      )}
       {loading && <p className={styles.status}>Loading…</p>}
       {error && <p className={styles.error}>{error}</p>}
       {!error && range && windows.length === 0 && !loading && (
@@ -267,14 +272,52 @@ export function CalendarView({
         onSelectRange={handleSelectRange}
         onEventClick={handleEventClick}
         onEventChange={handleEventChange}
+        renderEventContent={renderEventContent}
+        highlightEventId={highlightEventId}
       />
-      {modalProps && (
+      {selectedWindow && (
+        <CorrectionPopover
+          window={selectedWindow}
+          activityTypes={activityTypes}
+          allWindows={windows}
+          timezone={timezone}
+          open={popoverOpen}
+          onOpenChange={(open) => {
+            setPopoverOpen(open);
+            if (!open) {
+              setSelectedWindow(null);
+              setHighlightEventId(null);
+            }
+          }}
+          anchorPosition={anchorPosition}
+          onConfirm={async (id) => {
+            await corrections.confirmWindow(id);
+            onDataChange?.();
+          }}
+          onDismiss={async (id) => {
+            await corrections.dismissWindow(id);
+            onDataChange?.();
+          }}
+          onCorrectType={async (id, slug) => {
+            await corrections.correctWindowType(id, slug);
+            onDataChange?.();
+          }}
+          onAddManual={async (data) => {
+            await corrections.addManualWindow(data);
+            onDataChange?.();
+          }}
+        />
+      )}
+      {modal.kind === "create" && (
         <EventModal
-          {...modalProps}
+          mode="create"
+          open
+          initial={modal.initial}
+          readOnly={false}
           activityTypes={activityTypes}
           saving={saving}
           error={modalError}
-          onClose={closeModal}
+          onClose={() => setModal({ kind: "closed" })}
           onSave={handleSave}
         />
       )}
